@@ -1,0 +1,8 @@
+*.suo
+*.aps
+*.user
+*.pfx
+*.exe
+obj
+bin
+.vs
