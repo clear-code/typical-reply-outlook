@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using Office = Microsoft.Office.Core;
+using Outlook = Microsoft.Office.Interop.Outlook;
 
 // TODO:  リボン (XML) アイテムを有効にするには、次の手順に従います:
 
@@ -56,8 +57,27 @@ namespace TypicalReply
 
         #endregion
 
+        private Outlook.MailItem GetActiveExplorerMailItem()
+        {
+            Outlook.Explorer activeExplorer = Globals.ThisAddIn.Application.ActiveExplorer();
+            if (activeExplorer.Selection.Count > 0 &&
+                activeExplorer.Selection[1] is Outlook.MailItem selObject)
+            {
+                return selObject;
+            }
+            return null;
+        }
+
+        public Outlook.MailItem GetActiveImspectorMailItem()
+        {
+            return Globals.ThisAddIn.Application.ActiveInspector()?.CurrentItem as Outlook.MailItem;
+        }
+
+
         public void OnCreateTemplate(Office.IRibbonControl control)
         {
+            var a = GetActiveExplorerMailItem();
+            var b = GetActiveImspectorMailItem();
         }
 
         #region ヘルパー
