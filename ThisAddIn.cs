@@ -20,6 +20,11 @@ namespace TypicalReply
             //    を Outlook のシャットダウン時に実行する必要があります。https://go.microsoft.com/fwlink/?LinkId=506785 をご覧ください
         }
 
+        protected override Office.IRibbonExtensibility CreateRibbonExtensibilityObject()
+        {
+            return new Ribbon();
+        }
+
         #region VSTO で生成されたコード
 
         /// <summary>
