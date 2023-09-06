@@ -3,10 +3,9 @@
   <ribbon>
     <tabs>
       <tab idMso="TabMail">
-        <group id="GroupTypicalReply"
-               label="TypicalReply">
-			<button id="ButtonTypicalReply" label="CreateTemplate" onAction="OnCreateTemplate" />
-        </group>
+        <group id="GroupTypicalReply" label="TypicalReply">
+			<dropDown id="DropDownTypicalReply" label="Typical Reply"></dropDown>
+		</group>
       </tab>
     </tabs>
   </ribbon>

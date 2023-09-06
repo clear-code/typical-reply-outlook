@@ -7,6 +7,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Office = Microsoft.Office.Core;
 using Outlook = Microsoft.Office.Interop.Outlook;
+using System.Xml;
+using Microsoft.Office.Interop.Outlook;
+using Microsoft.Office.Tools.Ribbon;
 
 // TODO:  リボン (XML) アイテムを有効にするには、次の手順に従います:
 
@@ -42,7 +45,24 @@ namespace TypicalReply
 
         public string GetCustomUI(string ribbonID)
         {
-            return GetResourceText("TypicalReply.Ribbon.xml");
+            string ribbonTemplate = GetResourceText("TypicalReply.Ribbon.xml");
+            var xmlDocument = new XmlDocument();
+            xmlDocument.LoadXml(ribbonTemplate);
+            string namespaceURI = xmlDocument.ChildNodes[1].NamespaceURI;
+            var groupElement = xmlDocument.SelectSingleNode("//*[@id='DropDownTypicalReply']");
+            var button = xmlDocument.CreateElement("button", namespaceURI);
+            //button.SetAttribute("onAction", "OnCreateTemplate");
+            button.SetAttribute("id", "ButtonTypicalReply");
+            button.SetAttribute("label", "CreateTemplate");
+            button.SetAttribute("onAction", "OnCreateTemplate");
+            groupElement.AppendChild(button);
+            button = xmlDocument.CreateElement("button", namespaceURI);
+            button.SetAttribute("id", "ButtonTypicalReply2");
+            button.SetAttribute("label", "CreateTemplate2");
+            button.SetAttribute("onAction", "OnCreateTemplate");
+            groupElement.AppendChild(button);
+            return xmlDocument.InnerXml;
+            //return GetResourceText("TypicalReply.Ribbon.xml");
         }
 
         #endregion
@@ -82,7 +102,7 @@ namespace TypicalReply
         private Outlook.MailItem CreateNewMail(List<Outlook.MailItem> mailsForAttacihment)
         {
             Outlook.MailItem newMailItem = (Outlook.MailItem)Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olMailItem);
-            foreach(Outlook.MailItem mailItem in mailsForAttacihment)
+            foreach (Outlook.MailItem mailItem in mailsForAttacihment)
             {
                 newMailItem.Attachments.Add(mailItem, Outlook.OlAttachmentType.olEmbeddeditem);
             }
