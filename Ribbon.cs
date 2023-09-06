@@ -60,6 +60,7 @@ namespace TypicalReply
         private Outlook.MailItem GetActiveExplorerMailItem()
         {
             Outlook.Explorer activeExplorer = Globals.ThisAddIn.Application.ActiveExplorer();
+            //TODO: Accept multiple selection
             if (activeExplorer.Selection.Count > 0 &&
                 activeExplorer.Selection[1] is Outlook.MailItem selObject)
             {
@@ -68,16 +69,32 @@ namespace TypicalReply
             return null;
         }
 
-        public Outlook.MailItem GetActiveImspectorMailItem()
+        private Outlook.MailItem GetActiveImspectorMailItem()
         {
             return Globals.ThisAddIn.Application.ActiveInspector()?.CurrentItem as Outlook.MailItem;
         }
 
+        private Outlook.MailItem GetMailItem()
+        {
+            return GetActiveExplorerMailItem() ?? GetActiveImspectorMailItem();
+        }
+
+        private Outlook.MailItem CreateNewMail(List<Outlook.MailItem> mailsForAttacihment)
+        {
+            Outlook.MailItem newMailItem = (Outlook.MailItem)Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olMailItem);
+            foreach(Outlook.MailItem mailItem in mailsForAttacihment)
+            {
+                newMailItem.Attachments.Add(mailItem, Outlook.OlAttachmentType.olEmbeddeditem);
+            }
+            newMailItem.Subject = "new message!";
+            return newMailItem;
+        }
 
         public void OnCreateTemplate(Office.IRibbonControl control)
         {
-            var a = GetActiveExplorerMailItem();
-            var b = GetActiveImspectorMailItem();
+            Outlook.MailItem selectedMailItem = GetMailItem();
+            Outlook.MailItem newMailItem = CreateNewMail(new List<Outlook.MailItem>() { selectedMailItem });
+            newMailItem.Display();
         }
 
         #region ヘルパー
