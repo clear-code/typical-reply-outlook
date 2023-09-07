@@ -49,7 +49,7 @@ namespace TypicalReply
             var xmlDocument = new XmlDocument();
             xmlDocument.LoadXml(ribbonTemplate);
             string namespaceURI = xmlDocument.ChildNodes[1].NamespaceURI;
-            var groupElement = xmlDocument.SelectSingleNode("//*[@id='DropDownTypicalReply']");
+            var groupElement = xmlDocument.SelectSingleNode("//*[@id='RibbonDropDownTypicalReply']");
             var button = xmlDocument.CreateElement("button", namespaceURI);
             //button.SetAttribute("onAction", "OnCreateTemplate");
             button.SetAttribute("id", "ButtonTypicalReply");
@@ -61,7 +61,21 @@ namespace TypicalReply
             button.SetAttribute("label", "CreateTemplate2");
             button.SetAttribute("onAction", "OnCreateTemplate");
             groupElement.AppendChild(button);
-            return xmlDocument.InnerXml;
+
+            groupElement = xmlDocument.SelectSingleNode("//*[@id='ContextDropDownTypicalReply']");
+            button = xmlDocument.CreateElement("button", namespaceURI);
+            //button.SetAttribute("onAction", "OnCreateTemplate");
+            button.SetAttribute("id", "ButtonTypicalReply2-1");
+            button.SetAttribute("label", "CreateTemplate");
+            button.SetAttribute("onAction", "OnCreateTemplate");
+            groupElement.AppendChild(button);
+            button = xmlDocument.CreateElement("button", namespaceURI);
+            button.SetAttribute("id", "ButtonTypicalReply2-2");
+            button.SetAttribute("label", "CreateTemplate2");
+            button.SetAttribute("onAction", "OnCreateTemplate");
+            groupElement.AppendChild(button);
+
+            return xmlDocument.InnerXml; 
             //return GetResourceText("TypicalReply.Ribbon.xml");
         }
 

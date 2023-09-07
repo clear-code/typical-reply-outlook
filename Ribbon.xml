@@ -4,10 +4,16 @@
     <tabs>
       <tab idMso="TabMail">
         <group id="GroupTypicalReply" label="TypicalReply">
-			<dropDown id="DropDownTypicalReply" label="Typical Reply"></dropDown>
+		  <dropDown id="RibbonDropDownTypicalReply" label="Typical Reply"></dropDown>
 		</group>
       </tab>
     </tabs>
   </ribbon>
+  <contextMenus>
+    <contextMenu idMso="ContextMenuMailItem">
+	  <menu id="ContextDropDownTypicalReply" label="Typical Reply">
+	  </menu>
+    </contextMenu>
+  </contextMenus>
 </customUI>
 
