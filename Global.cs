@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using TypicalReply.Config;
 
@@ -13,6 +14,7 @@ namespace TypicalReply
         #region params
         internal static string ConfigFileName { get; } = "TypicalReplyConfig.json";
         internal string UserConfigPath { get; }
+        internal TypicalReplyConfig Config { get; }
         #endregion
 
         #region singletonization
@@ -22,6 +24,7 @@ namespace TypicalReply
         internal Global()
         {
             UserConfigPath = Path.Combine(StandardPath.GetUserDir(), ConfigFileName);
+            Config = ConfigSerializer<TypicalReplyConfig>.LoadFromFile(UserConfigPath);
         }
 
         internal static Global GetInstance()

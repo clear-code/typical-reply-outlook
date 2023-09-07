@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace TypicalReply.Config
 {
-    internal class TemplateConfig
+    public class TemplateConfig
     {
-        internal string Id { get; set; }
-        internal string Label { get; set; }
-        internal string AccessKey { get; set; }
-        internal string SubjectPrefix { get; set; }
-        internal string Subject { get; set; }
-        internal string Body { get; set; }
-        internal string BodyImage { get; set; }
-        internal string Recipients { get; set; }
-        internal string QuoteType { get; set; }
-        internal string AllowedDomains { get; set; }
-        internal string Icon { get; set; }
-        internal string Locale { get; set; }
+        public string Id { get; set; }
+        public string Label { get; set; }
+        public string AccessKey { get; set; }
+        public string SubjectPrefix { get; set; }
+        public string Subject { get; set; }
+        public string Body { get; set; }
+        public string BodyImage { get; set; }
+        public string Recipients { get; set; }
+        public string QuoteType { get; set; }
+        public string AllowedDomains { get; set; }
+        public string Icon { get; set; }
+        public string Locale { get; set; }
     }
 }

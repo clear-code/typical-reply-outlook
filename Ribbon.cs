@@ -41,6 +41,7 @@ namespace TypicalReply
         public Ribbon()
         {
             var x = StandardPath.GetUserDir();
+            var global = Global.GetInstance();
         }
 
         #region IRibbonExtensibility のメンバー

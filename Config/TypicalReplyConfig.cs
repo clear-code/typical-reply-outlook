@@ -7,8 +7,8 @@ using System.Windows.Forms;
 
 namespace TypicalReply.Config
 {
-    internal class Config
+    public class TypicalReplyConfig
     {
-        internal List<TemplateConfig> TemplateConfigList { get; set; }
+        public List<TemplateConfig> TemplateConfigList { get; set; }
     }
 }
