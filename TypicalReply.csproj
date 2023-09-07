@@ -159,6 +159,11 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="Config\ConfigSerializer.cs" />
+    <Compile Include="Config\TypicalReplyConfig.cs" />
+    <Compile Include="Config\TemplateConfig.cs" />
+    <Compile Include="Config\StandardPath.cs" />
+    <Compile Include="Global.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -195,6 +200,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Ribbon.xml" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

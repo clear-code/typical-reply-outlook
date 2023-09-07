@@ -10,6 +10,7 @@ using Outlook = Microsoft.Office.Interop.Outlook;
 using System.Xml;
 using Microsoft.Office.Interop.Outlook;
 using Microsoft.Office.Tools.Ribbon;
+using TypicalReply.Config;
 
 // TODO:  リボン (XML) アイテムを有効にするには、次の手順に従います:
 
@@ -39,6 +40,7 @@ namespace TypicalReply
 
         public Ribbon()
         {
+            var x = StandardPath.GetUserDir();
         }
 
         #region IRibbonExtensibility のメンバー
