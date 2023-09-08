@@ -11,6 +11,8 @@ using System.Xml;
 using Microsoft.Office.Interop.Outlook;
 using Microsoft.Office.Tools.Ribbon;
 using TypicalReply.Config;
+using Microsoft.Office.Core;
+using System.Xml.Linq;
 
 // TODO:  リボン (XML) アイテムを有効にするには、次の手順に従います:
 
@@ -123,16 +125,53 @@ namespace TypicalReply
 
         private Outlook.MailItem CreateNewMail(TemplateConfig config, Outlook.MailItem selectedMailItem)
         {
-            Outlook.MailItem newMailItem = (Outlook.MailItem)Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olMailItem);
-            var subjectPrefix = config.SubjectPrefix ?? "";
-            var subject = config.Subject ?? "";
-            newMailItem.Subject = $"{subjectPrefix} {subject}";
-            newMailItem.Body = config.Body ?? "";
+            MailItem newMailItem;
 
-            if (config.QuoteType)
+            //Force plain text.
+            //**Copying to avoid a side effect for selectedMailItem**
+            Outlook.MailItem copiedMailItem = selectedMailItem.Copy();
+            copiedMailItem.BodyFormat = OlBodyFormat.olFormatPlain;
+
+            switch (config.RecipientsType)
             {
-                newMailItem.Body += "\n";
-                newMailItem.Body += string.Join("\n", selectedMailItem.Body.Split('\n').Select(_ => $"> {_}"));
+                case RecipientsType.All:
+                    newMailItem = copiedMailItem.ReplyAll();
+                    break;
+                case RecipientsType.Sender:
+                    newMailItem = copiedMailItem.Reply();
+                    break;
+                case RecipientsType.UserSpecification:
+                    newMailItem = copiedMailItem.Reply();
+                    newMailItem.Recipients.ResolveAll();
+                    foreach (var recipient in config.Recipients)
+                    {
+                        newMailItem.Recipients.Add(recipient);
+                    }
+                    break;
+                default:
+                    newMailItem = copiedMailItem.Reply();
+                    newMailItem.Recipients.ResolveAll();
+                    break;
+            }
+
+            if (!string.IsNullOrEmpty(config.Subject))
+            {
+                newMailItem.Subject = config.Subject;
+            }
+
+            if (!string.IsNullOrEmpty(config.SubjectPrefix))
+            {
+                newMailItem.Subject = $"{config.SubjectPrefix} {newMailItem.Subject}";
+            }
+
+            if (!config.QuoteType)
+            {
+                newMailItem.Body = "";
+            }
+
+            if (!string.IsNullOrEmpty(config.Body))
+            {
+                newMailItem.Body = $"{config.Body}{newMailItem.Body}";
             }
 
             switch (config.ForwardType)
@@ -140,42 +179,10 @@ namespace TypicalReply
                 case ForwardType.Attachment:
                     newMailItem.Attachments.Add(selectedMailItem, Outlook.OlAttachmentType.olEmbeddeditem);
                     break;
-                default:
+                case ForwardType.Inline:
                     //TODO: Support Inline
                     newMailItem.Attachments.Add(selectedMailItem, Outlook.OlAttachmentType.olEmbeddeditem);
                     break;
-            }
-
-            switch (config.RecipientsType)
-            {
-                case RecipientsType.All:
-                    newMailItem.Recipients.Add(selectedMailItem.Sender.Name);
-                    var currentUser = Globals.ThisAddIn.Application.Session.CurrentUser;
-                    HashSet<string> recipientNameHashSet = new HashSet<string>();
-                    foreach (Recipient originalRecipient in selectedMailItem.Recipients)
-                    {
-                        if (currentUser.Name != originalRecipient.Name)
-                        {
-                            recipientNameHashSet.Add(originalRecipient.Name);
-                        }
-                    }
-                    if (recipientNameHashSet.Any())
-                    {
-                        newMailItem.CC += string.Join("; ", recipientNameHashSet);
-                    }
-                    break;
-                case RecipientsType.Sender:
-                    newMailItem.Recipients.Add(selectedMailItem.Sender.Name);
-                    break;
-                case RecipientsType.UserSpecification:
-                    foreach (var recipient in config.Recipients)
-                    {
-                        newMailItem.Recipients.Add(recipient);
-                    }
-                    break;
-                default:
-                    break;
-
             }
 
             return newMailItem;
