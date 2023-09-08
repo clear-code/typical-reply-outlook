@@ -39,7 +39,7 @@ namespace TypicalReply
         private Office.IRibbonUI ribbon;
 
         public Ribbon()
-        {           
+        {
         }
 
         #region IRibbonExtensibility のメンバー
@@ -68,7 +68,8 @@ namespace TypicalReply
                 ribbonDropDownButton.SetAttribute("id", $"{templateConfig.Id}RibbonDropdown");
                 ribbonDropDownButton.SetAttribute("label", templateConfig.Label);
                 ribbonDropDownButton.SetAttribute("onAction", "OnCreateTemplate");
-                if (!string.IsNullOrEmpty(templateConfig.AccessKey)) {
+                if (!string.IsNullOrEmpty(templateConfig.AccessKey))
+                {
                     ribbonDropDownButton.SetAttribute("keytip", templateConfig.AccessKey);
                 }
                 ribbonDropDownElem.AppendChild(ribbonDropDownButton);
@@ -83,7 +84,7 @@ namespace TypicalReply
                 }
                 contextDropDownElem.AppendChild(contextDropDownButton);
             }
-            return xmlDocument.InnerXml; 
+            return xmlDocument.InnerXml;
         }
 
         #endregion
@@ -120,21 +121,67 @@ namespace TypicalReply
             return GetActiveExplorerMailItem() ?? GetActiveImspectorMailItem();
         }
 
-        private Outlook.MailItem CreateNewMail(List<Outlook.MailItem> mailsForAttacihment)
+        private Outlook.MailItem CreateNewMail(TemplateConfig config, Outlook.MailItem selectedMailItem)
         {
             Outlook.MailItem newMailItem = (Outlook.MailItem)Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olMailItem);
-            foreach (Outlook.MailItem mailItem in mailsForAttacihment)
+            var subjectPrefix = config.SubjectPrefix ?? "";
+            var subject = config.Subject ?? "";
+            newMailItem.Subject = $"{subjectPrefix} {subject}";
+            newMailItem.Body = config.Body ?? "";
+
+            switch (config.ForwardType)
             {
-                newMailItem.Attachments.Add(mailItem, Outlook.OlAttachmentType.olEmbeddeditem);
+                case ForwardType.Attachment:
+                    newMailItem.Attachments.Add(selectedMailItem, Outlook.OlAttachmentType.olEmbeddeditem);
+                    break;
+                default:
+                    newMailItem.Body += "\n";
+                    newMailItem.Body += string.Join("\n", selectedMailItem.Body.Split('\n').Select(_ => " > ${_}"));
+                    break;
             }
-            newMailItem.Subject = "new message!";
+
+            switch (config.RecipientsType)
+            {
+                case RecipientsType.All:
+                    newMailItem.Recipients.Add(selectedMailItem.Sender.Address);
+                    newMailItem.CC = selectedMailItem.CC;
+                    foreach (Recipient originalRecipient in selectedMailItem.Recipients)
+                    {
+                        if (newMailItem.Sender.Address != originalRecipient.Address)
+                        {
+                            newMailItem.CC += $" {selectedMailItem.Sender.Address}";
+
+                        }
+                    }
+                    break;
+                case RecipientsType.Sender:
+                    newMailItem.Recipients.Add(selectedMailItem.Sender.Address);
+                    break;
+                case RecipientsType.UserSpecification:
+                    foreach (var recipient in config.Recipients.Split())
+                    {
+                        newMailItem.Recipients.Add(recipient);
+                    }
+                    break;
+                default:
+                    break;
+
+            }
+
             return newMailItem;
         }
 
         public void OnCreateTemplate(Office.IRibbonControl control)
         {
+            TypicalReplyConfig typicalReplyConfig = Global.GetInstance().Config;
+            var config = typicalReplyConfig.TemplateConfigList.FirstOrDefault(_ => control.Id.Contains(_.Id));
+            if (config == null)
+            {
+                //TODO: Logging error;
+                return;
+            }
             Outlook.MailItem selectedMailItem = GetMailItem();
-            Outlook.MailItem newMailItem = CreateNewMail(new List<Outlook.MailItem>() { selectedMailItem });
+            Outlook.MailItem newMailItem = CreateNewMail(config, selectedMailItem);
             newMailItem.Display();
         }
 
