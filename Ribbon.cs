@@ -135,8 +135,8 @@ namespace TypicalReply
                     newMailItem.Attachments.Add(selectedMailItem, Outlook.OlAttachmentType.olEmbeddeditem);
                     break;
                 default:
-                    newMailItem.Body += "\n";
-                    newMailItem.Body += string.Join("\n", selectedMailItem.Body.Split('\n').Select(_ => " > ${_}"));
+                    //TODO: Support Inline
+                    newMailItem.Attachments.Add(selectedMailItem, Outlook.OlAttachmentType.olEmbeddeditem);
                     break;
             }
 
