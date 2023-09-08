@@ -39,9 +39,7 @@ namespace TypicalReply
         private Office.IRibbonUI ribbon;
 
         public Ribbon()
-        {
-            var x = StandardPath.GetUserDir();
-            var global = Global.GetInstance();
+        {           
         }
 
         #region IRibbonExtensibility のメンバー
@@ -52,34 +50,40 @@ namespace TypicalReply
             var xmlDocument = new XmlDocument();
             xmlDocument.LoadXml(ribbonTemplate);
             string namespaceURI = xmlDocument.ChildNodes[1].NamespaceURI;
-            var groupElement = xmlDocument.SelectSingleNode("//*[@id='RibbonDropDownTypicalReply']");
-            var button = xmlDocument.CreateElement("button", namespaceURI);
-            //button.SetAttribute("onAction", "OnCreateTemplate");
-            button.SetAttribute("id", "ButtonTypicalReply");
-            button.SetAttribute("label", "CreateTemplate");
-            button.SetAttribute("onAction", "OnCreateTemplate");
-            groupElement.AppendChild(button);
-            button = xmlDocument.CreateElement("button", namespaceURI);
-            button.SetAttribute("id", "ButtonTypicalReply2");
-            button.SetAttribute("label", "CreateTemplate2");
-            button.SetAttribute("onAction", "OnCreateTemplate");
-            groupElement.AppendChild(button);
+            var global = Global.GetInstance();
+            var ribbonDropDownElem = xmlDocument.SelectSingleNode("//*[@id='RibbonDropDownTypicalReply']");
+            var contextDropDownElem = xmlDocument.SelectSingleNode("//*[@id='ContextMenuTypicalReply']");
 
-            groupElement = xmlDocument.SelectSingleNode("//*[@id='ContextDropDownTypicalReply']");
-            button = xmlDocument.CreateElement("button", namespaceURI);
-            //button.SetAttribute("onAction", "OnCreateTemplate");
-            button.SetAttribute("id", "ButtonTypicalReply2-1");
-            button.SetAttribute("label", "CreateTemplate");
-            button.SetAttribute("onAction", "OnCreateTemplate");
-            groupElement.AppendChild(button);
-            button = xmlDocument.CreateElement("button", namespaceURI);
-            button.SetAttribute("id", "ButtonTypicalReply2-2");
-            button.SetAttribute("label", "CreateTemplate2");
-            button.SetAttribute("onAction", "OnCreateTemplate");
-            groupElement.AppendChild(button);
+            foreach (var templateConfig in global.Config.TemplateConfigList)
+            {
+                if (string.IsNullOrEmpty(templateConfig.Id))
+                {
+                    continue;
+                }
+                if (string.IsNullOrEmpty(templateConfig.Label))
+                {
+                    continue;
+                }
+                var ribbonDropDownButton = xmlDocument.CreateElement("button", namespaceURI);
+                ribbonDropDownButton.SetAttribute("id", $"{templateConfig.Id}RibbonDropdown");
+                ribbonDropDownButton.SetAttribute("label", templateConfig.Label);
+                ribbonDropDownButton.SetAttribute("onAction", "OnCreateTemplate");
+                if (!string.IsNullOrEmpty(templateConfig.AccessKey)) {
+                    ribbonDropDownButton.SetAttribute("keytip", templateConfig.AccessKey);
+                }
+                ribbonDropDownElem.AppendChild(ribbonDropDownButton);
 
+                var contextDropDownButton = xmlDocument.CreateElement("button", namespaceURI);
+                contextDropDownButton.SetAttribute("id", $"{templateConfig.Id}ContextMenu");
+                contextDropDownButton.SetAtatribute("label", templateConfig.Label);
+                contextDropDownButton.SetAttribute("onAction", "OnCreateTemplate");
+                if (!string.IsNullOrEmpty(templateConfig.AccessKey))
+                {
+                    contextDropDownButton.SetAttribute("keytip", templateConfig.AccessKey);
+                }
+                contextDropDownElem.AppendChild(contextDropDownButton);
+            }
             return xmlDocument.InnerXml; 
-            //return GetResourceText("TypicalReply.Ribbon.xml");
         }
 
         #endregion
