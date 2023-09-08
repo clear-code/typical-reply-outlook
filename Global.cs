@@ -13,6 +13,9 @@ namespace TypicalReply
     {
         #region params
         internal static string ConfigFileName { get; } = "TypicalReplyConfig.json";
+        internal static string RibbonDropDownPostfix { get; } = "RibbonDropdown";
+        internal static string MenuInContextMenuPostfix { get; } = "ContextMenu";
+
         internal string UserConfigPath { get; }
         internal TypicalReplyConfig Config { get; }
         #endregion

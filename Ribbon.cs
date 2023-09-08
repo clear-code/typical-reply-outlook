@@ -65,7 +65,7 @@ namespace TypicalReply
                     continue;
                 }
                 var ribbonDropDownButton = xmlDocument.CreateElement("button", namespaceURI);
-                ribbonDropDownButton.SetAttribute("id", $"{templateConfig.Id}RibbonDropdown");
+                ribbonDropDownButton.SetAttribute("id", $"{templateConfig.Id}{Global.RibbonDropDownPostfix}");
                 ribbonDropDownButton.SetAttribute("label", templateConfig.Label);
                 ribbonDropDownButton.SetAttribute("onAction", "OnCreateTemplate");
                 if (!string.IsNullOrEmpty(templateConfig.AccessKey))
@@ -75,7 +75,7 @@ namespace TypicalReply
                 ribbonDropDownElem.AppendChild(ribbonDropDownButton);
 
                 var contextDropDownButton = xmlDocument.CreateElement("button", namespaceURI);
-                contextDropDownButton.SetAttribute("id", $"{templateConfig.Id}ContextMenu");
+                contextDropDownButton.SetAttribute("id", $"{templateConfig.Id}{Global.MenuInContextMenuPostfix}");
                 contextDropDownButton.SetAttribute("label", templateConfig.Label);
                 contextDropDownButton.SetAttribute("onAction", "OnCreateTemplate");
                 if (!string.IsNullOrEmpty(templateConfig.AccessKey))
@@ -149,19 +149,23 @@ namespace TypicalReply
             switch (config.RecipientsType)
             {
                 case RecipientsType.All:
-                    newMailItem.Recipients.Add(selectedMailItem.Sender.Address);
-                    newMailItem.CC = selectedMailItem.CC;
+                    newMailItem.Recipients.Add(selectedMailItem.Sender.Name);
+                    var currentUser = Globals.ThisAddIn.Application.Session.CurrentUser;
+                    HashSet<string> recipientNameHashSet = new HashSet<string>();
                     foreach (Recipient originalRecipient in selectedMailItem.Recipients)
                     {
-                        if (newMailItem.Sender.Address != originalRecipient.Address)
+                        if (currentUser.Name != originalRecipient.Name)
                         {
-                            newMailItem.CC += $" {selectedMailItem.Sender.Address}";
-
+                            recipientNameHashSet.Add(originalRecipient.Name);
                         }
+                    }
+                    if (recipientNameHashSet.Any())
+                    {
+                        newMailItem.CC += string.Join("; ", recipientNameHashSet);
                     }
                     break;
                 case RecipientsType.Sender:
-                    newMailItem.Recipients.Add(selectedMailItem.Sender.Address);
+                    newMailItem.Recipients.Add(selectedMailItem.Sender.Name);
                     break;
                 case RecipientsType.UserSpecification:
                     foreach (var recipient in config.Recipients)
@@ -180,7 +184,11 @@ namespace TypicalReply
         public void OnCreateTemplate(Office.IRibbonControl control)
         {
             TypicalReplyConfig typicalReplyConfig = Global.GetInstance().Config;
-            var config = typicalReplyConfig.TemplateConfigList.FirstOrDefault(_ => control.Id.Contains(_.Id));
+            var config = typicalReplyConfig
+                .TemplateConfigList
+                .FirstOrDefault(_ => 
+                    control.Id == $"{_.Id}{Global.RibbonDropDownPostfix}" || control.Id == $"{_.Id}{Global.MenuInContextMenuPostfix}");
+            
             if (config == null)
             {
                 //TODO: Logging error;
