@@ -129,6 +129,12 @@ namespace TypicalReply
             newMailItem.Subject = $"{subjectPrefix} {subject}";
             newMailItem.Body = config.Body ?? "";
 
+            if (config.QuoteType)
+            {
+                newMailItem.Body += "\n";
+                newMailItem.Body += string.Join("\n", selectedMailItem.Body.Split('\n').Select(_ => $"> {_}"));
+            }
+
             switch (config.ForwardType)
             {
                 case ForwardType.Attachment:
