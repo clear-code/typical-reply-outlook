@@ -76,7 +76,7 @@ namespace TypicalReply
 
                 var contextDropDownButton = xmlDocument.CreateElement("button", namespaceURI);
                 contextDropDownButton.SetAttribute("id", $"{templateConfig.Id}ContextMenu");
-                contextDropDownButton.SetAtatribute("label", templateConfig.Label);
+                contextDropDownButton.SetAttribute("label", templateConfig.Label);
                 contextDropDownButton.SetAttribute("onAction", "OnCreateTemplate");
                 if (!string.IsNullOrEmpty(templateConfig.AccessKey))
                 {
