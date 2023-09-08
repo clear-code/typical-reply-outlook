@@ -11,7 +11,7 @@
   </ribbon>
   <contextMenus>
     <contextMenu idMso="ContextMenuMailItem">
-	  <menu id="ContextMenuTypicalReply" label="Typical Reply">
+	  <menu id="ContextMenuTypicalReply" label="Typical Reply" >
 	  </menu>
     </contextMenu>
   </contextMenus>

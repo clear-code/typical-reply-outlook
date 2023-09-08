@@ -40,19 +40,19 @@ namespace TypicalReply.Config
         public string Subject { get; set; }
         public string Body { get; set; }
         public string BodyImage { get; set; }
-        public string Recipients { get; set; }
+        public List<string> Recipients { get; set; }
 
         [JsonIgnore]
         public RecipientsType RecipientsType
         {
             get
             {
-                if (string.IsNullOrEmpty(this.Recipients))
+                if (Recipients == null || !Recipients.Any())
                 {
                     return RecipientsType.Blank;
                 }
                 RecipientsType receipients;
-                if(Enum.TryParse(this.Recipients, true, out receipients))
+                if (Enum.TryParse(this.Recipients[0], true, out receipients))
                 {
                     // If "UserSpecification" is specified, this returns Recipients.UserSpecification.
                     // In that case, users may actually specify "UserSpecification", so this works fine.
@@ -64,7 +64,7 @@ namespace TypicalReply.Config
             
 
         public bool QuoteType { get; set; }
-        public string AllowedDomains { get; set; }
+        public List<string> AllowedDomains { get; set; }
         public string Icon { get; set; }
         public ForwardType ForwardType { get; set; }
         public string Locale { get; set; }

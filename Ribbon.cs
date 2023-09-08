@@ -164,7 +164,7 @@ namespace TypicalReply
                     newMailItem.Recipients.Add(selectedMailItem.Sender.Address);
                     break;
                 case RecipientsType.UserSpecification:
-                    foreach (var recipient in config.Recipients.Split())
+                    foreach (var recipient in config.Recipients)
                     {
                         newMailItem.Recipients.Add(recipient);
                     }
