@@ -13,8 +13,9 @@ namespace TypicalReply
     {
         #region params
         internal static string ConfigFileName { get; } = "TypicalReplyConfig.json";
-        internal static string RibbonDropDownPostfix { get; } = "RibbonDropdown";
-        internal static string MenuInContextMenuPostfix { get; } = "ContextMenu";
+        internal static string TabMailGroupGalleryId { get; } = "TypicalReplyTabMailGroupGallery";
+        internal static string TabReadMessageGroupGalleryId { get; } = "TypicalReplyTabReadMessageGroupGallery";
+        internal static string MenuInContextMenuId { get; } = "TypicalReplyMenuInContextMenu";
 
         internal string UserConfigPath { get; }
         internal TypicalReplyConfig Config { get; }

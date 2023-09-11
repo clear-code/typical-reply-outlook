@@ -9,6 +9,7 @@ namespace TypicalReply.Config
 {
     public class TypicalReplyConfig
     {
+        public string RibbonLabel { get; set; } = "Typical Reply";
         public List<TemplateConfig> TemplateConfigList { get; set; }
     }
 }

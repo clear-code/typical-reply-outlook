@@ -1,19 +1,23 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" onLoad="Ribbon_Load">
-  <ribbon>
-    <tabs>
-      <tab idMso="TabMail">
-        <group id="GroupTypicalReply" label="TypicalReply">
-		  <dropDown id="RibbonDropDownTypicalReply" label="Typical Reply"></dropDown>
-		</group>
-      </tab>
-    </tabs>
-  </ribbon>
-  <contextMenus>
-    <contextMenu idMso="ContextMenuMailItem">
-	  <menu id="ContextMenuTypicalReply" label="Typical Reply" >
-	  </menu>
-    </contextMenu>
-  </contextMenus>
+	<ribbon>
+		<tabs>
+			<tab idMso="TabMail">
+				<group id="TypicalReplyTabMailGroup" label="TypicalReply">
+					<gallery id="TypicalReplyTabMailGroupGallery"  getLabel="GetLabel"></gallery>
+				</group>
+			</tab>
+			<tab idMso="TabReadMessage">
+				<group id="TypicalReplyTabReadMessageGroup" label="TypicalReply">
+					<gallery id="TypicalReplyTabReadMessageGroupGallery"  getLabel="GetLabel"></gallery>
+				</group>
+			</tab>
+		</tabs>
+	</ribbon>
+	<contextMenus>
+		<contextMenu idMso="ContextMenuMailItem">
+			<menu id="TypicalReplyMenuInContextMenu" getLabel="GetLabel"></menu>
+		</contextMenu>
+	</contextMenus>
 </customUI>
 

@@ -55,9 +55,17 @@ namespace TypicalReply
                 var xmlDocument = new XmlDocument();
                 xmlDocument.LoadXml(ribbonTemplate);
                 string namespaceURI = xmlDocument.ChildNodes[1].NamespaceURI;
-                var global = Global.GetInstance();
-                var ribbonDropDownElem = xmlDocument.SelectSingleNode("//*[@id='RibbonDropDownTypicalReply']");
-                var contextDropDownElem = xmlDocument.SelectSingleNode("//*[@id='ContextMenuTypicalReply']");
+                Global global = Global.GetInstance();
+                XmlNode galleryInTabMailElem = xmlDocument.SelectSingleNode($"//*[@id='{Global.TabMailGroupGalleryId}']");
+                XmlNode galleryInTabReadMessageElem = xmlDocument.SelectSingleNode($"//*[@id='{Global.TabReadMessageGroupGalleryId}']");
+                XmlNode contextDropDownElem = xmlDocument.SelectSingleNode($"//*[@id='{Global.MenuInContextMenuId}']");
+
+                var targetParams = new List<(XmlNode, string)>
+                {
+                    (galleryInTabMailElem, Global.TabMailGroupGalleryId),
+                    (galleryInTabReadMessageElem, Global.TabReadMessageGroupGalleryId),
+                    (contextDropDownElem, Global.MenuInContextMenuId),
+                };
 
                 foreach (var templateConfig in global.Config.TemplateConfigList)
                 {
@@ -69,25 +77,17 @@ namespace TypicalReply
                     {
                         continue;
                     }
-                    var ribbonDropDownButton = xmlDocument.CreateElement("button", namespaceURI);
-                    ribbonDropDownButton.SetAttribute("id", $"{templateConfig.Id}{Global.RibbonDropDownPostfix}");
-                    ribbonDropDownButton.SetAttribute("label", templateConfig.Label);
-                    ribbonDropDownButton.SetAttribute("onAction", "OnCreateTemplate");
-                    if (!string.IsNullOrEmpty(templateConfig.AccessKey))
-                    {
-                        ribbonDropDownButton.SetAttribute("keytip", templateConfig.AccessKey);
+                    foreach (var (node, postfix) in targetParams) {
+                        XmlElement button = xmlDocument.CreateElement("button", namespaceURI);
+                        button.SetAttribute("id", $"{templateConfig.Id}{postfix}");
+                        button.SetAttribute("label", templateConfig.Label);
+                        button.SetAttribute("onAction", "OnCreateTemplate");
+                        if (!string.IsNullOrEmpty(templateConfig.AccessKey))
+                        {
+                            button.SetAttribute("keytip", templateConfig.AccessKey);
+                        }
+                        node.AppendChild(button);
                     }
-                    ribbonDropDownElem.AppendChild(ribbonDropDownButton);
-
-                    var contextDropDownButton = xmlDocument.CreateElement("button", namespaceURI);
-                    contextDropDownButton.SetAttribute("id", $"{templateConfig.Id}{Global.MenuInContextMenuPostfix}");
-                    contextDropDownButton.SetAttribute("label", templateConfig.Label);
-                    contextDropDownButton.SetAttribute("onAction", "OnCreateTemplate");
-                    if (!string.IsNullOrEmpty(templateConfig.AccessKey))
-                    {
-                        contextDropDownButton.SetAttribute("keytip", templateConfig.AccessKey);
-                    }
-                    contextDropDownElem.AppendChild(contextDropDownButton);
                 }
                 Logger.Log("Finish to setup custom UI");
                 return xmlDocument.InnerXml;
@@ -204,7 +204,9 @@ namespace TypicalReply
             var config = typicalReplyConfig
                 .TemplateConfigList
                 .FirstOrDefault(_ =>
-                    control.Id == $"{_.Id}{Global.RibbonDropDownPostfix}" || control.Id == $"{_.Id}{Global.MenuInContextMenuPostfix}");
+                    control.Id == $"{_.Id}{Global.TabMailGroupGalleryId}" || 
+                    control.Id == $"{_.Id}{Global.MenuInContextMenuId}"   ||
+                    control.Id == $"{_.Id}{Global.TabReadMessageGroupGalleryId}");
 
             if (config == null)
             {
@@ -214,6 +216,12 @@ namespace TypicalReply
             Outlook.MailItem selectedMailItem = GetMailItem();
             Outlook.MailItem newMailItem = CreateNewMail(config, selectedMailItem);
             newMailItem.Display();
+        }
+
+        public string GetLabel(Office.IRibbonControl control)
+        {
+            TypicalReplyConfig typicalReplyConfig = Global.GetInstance().Config;
+            return typicalReplyConfig.RibbonLabel;
         }
 
         #region ヘルパー
