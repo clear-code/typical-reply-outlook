@@ -192,6 +192,7 @@
     <Compile Include="Config\TemplateConfig.cs" />
     <Compile Include="Config\StandardPath.cs" />
     <Compile Include="Global.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

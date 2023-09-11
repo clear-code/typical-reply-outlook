@@ -48,45 +48,55 @@ namespace TypicalReply
 
         public string GetCustomUI(string ribbonID)
         {
-            string ribbonTemplate = GetResourceText("TypicalReply.Ribbon.xml");
-            var xmlDocument = new XmlDocument();
-            xmlDocument.LoadXml(ribbonTemplate);
-            string namespaceURI = xmlDocument.ChildNodes[1].NamespaceURI;
-            var global = Global.GetInstance();
-            var ribbonDropDownElem = xmlDocument.SelectSingleNode("//*[@id='RibbonDropDownTypicalReply']");
-            var contextDropDownElem = xmlDocument.SelectSingleNode("//*[@id='ContextMenuTypicalReply']");
-
-            foreach (var templateConfig in global.Config.TemplateConfigList)
+            try
             {
-                if (string.IsNullOrEmpty(templateConfig.Id))
-                {
-                    continue;
-                }
-                if (string.IsNullOrEmpty(templateConfig.Label))
-                {
-                    continue;
-                }
-                var ribbonDropDownButton = xmlDocument.CreateElement("button", namespaceURI);
-                ribbonDropDownButton.SetAttribute("id", $"{templateConfig.Id}{Global.RibbonDropDownPostfix}");
-                ribbonDropDownButton.SetAttribute("label", templateConfig.Label);
-                ribbonDropDownButton.SetAttribute("onAction", "OnCreateTemplate");
-                if (!string.IsNullOrEmpty(templateConfig.AccessKey))
-                {
-                    ribbonDropDownButton.SetAttribute("keytip", templateConfig.AccessKey);
-                }
-                ribbonDropDownElem.AppendChild(ribbonDropDownButton);
+                Logger.Log("Start to setup custom UI");
+                string ribbonTemplate = GetResourceText("TypicalReply.Ribbon.xml");
+                var xmlDocument = new XmlDocument();
+                xmlDocument.LoadXml(ribbonTemplate);
+                string namespaceURI = xmlDocument.ChildNodes[1].NamespaceURI;
+                var global = Global.GetInstance();
+                var ribbonDropDownElem = xmlDocument.SelectSingleNode("//*[@id='RibbonDropDownTypicalReply']");
+                var contextDropDownElem = xmlDocument.SelectSingleNode("//*[@id='ContextMenuTypicalReply']");
 
-                var contextDropDownButton = xmlDocument.CreateElement("button", namespaceURI);
-                contextDropDownButton.SetAttribute("id", $"{templateConfig.Id}{Global.MenuInContextMenuPostfix}");
-                contextDropDownButton.SetAttribute("label", templateConfig.Label);
-                contextDropDownButton.SetAttribute("onAction", "OnCreateTemplate");
-                if (!string.IsNullOrEmpty(templateConfig.AccessKey))
+                foreach (var templateConfig in global.Config.TemplateConfigList)
                 {
-                    contextDropDownButton.SetAttribute("keytip", templateConfig.AccessKey);
+                    if (string.IsNullOrEmpty(templateConfig.Id))
+                    {
+                        continue;
+                    }
+                    if (string.IsNullOrEmpty(templateConfig.Label))
+                    {
+                        continue;
+                    }
+                    var ribbonDropDownButton = xmlDocument.CreateElement("button", namespaceURI);
+                    ribbonDropDownButton.SetAttribute("id", $"{templateConfig.Id}{Global.RibbonDropDownPostfix}");
+                    ribbonDropDownButton.SetAttribute("label", templateConfig.Label);
+                    ribbonDropDownButton.SetAttribute("onAction", "OnCreateTemplate");
+                    if (!string.IsNullOrEmpty(templateConfig.AccessKey))
+                    {
+                        ribbonDropDownButton.SetAttribute("keytip", templateConfig.AccessKey);
+                    }
+                    ribbonDropDownElem.AppendChild(ribbonDropDownButton);
+
+                    var contextDropDownButton = xmlDocument.CreateElement("button", namespaceURI);
+                    contextDropDownButton.SetAttribute("id", $"{templateConfig.Id}{Global.MenuInContextMenuPostfix}");
+                    contextDropDownButton.SetAttribute("label", templateConfig.Label);
+                    contextDropDownButton.SetAttribute("onAction", "OnCreateTemplate");
+                    if (!string.IsNullOrEmpty(templateConfig.AccessKey))
+                    {
+                        contextDropDownButton.SetAttribute("keytip", templateConfig.AccessKey);
+                    }
+                    contextDropDownElem.AppendChild(contextDropDownButton);
                 }
-                contextDropDownElem.AppendChild(contextDropDownButton);
+                Logger.Log("Finish to setup custom UI");
+                return xmlDocument.InnerXml;
             }
-            return xmlDocument.InnerXml;
+            catch (System.Exception ex)
+            {
+                Logger.Log(ex);
+                throw;
+            }
         }
 
         #endregion
@@ -193,9 +203,9 @@ namespace TypicalReply
             TypicalReplyConfig typicalReplyConfig = Global.GetInstance().Config;
             var config = typicalReplyConfig
                 .TemplateConfigList
-                .FirstOrDefault(_ => 
+                .FirstOrDefault(_ =>
                     control.Id == $"{_.Id}{Global.RibbonDropDownPostfix}" || control.Id == $"{_.Id}{Global.MenuInContextMenuPostfix}");
-            
+
             if (config == null)
             {
                 //TODO: Logging error;
