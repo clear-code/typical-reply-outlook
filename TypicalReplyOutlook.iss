@@ -1,9 +1,10 @@
-﻿[Setup]
+﻿#define AppVersion GetFileVersion(SourcePath + "bin\Release\TypicalReply.dll")
+[Setup]
 AppName=TypicalReply
 AppVerName=TypicalReply
-VersionInfoVersion=22.2.2.0
+VersionInfoVersion={#AppVersion}
+AppVersion={#AppVersion}
 AppPublisher=ClearCode Inc.
-AppVersion=22.2.2
 UninstallDisplayIcon={app}\tr.ico
 DefaultDirName={commonpf}\TypicalReply
 ShowLanguageDialog=no
