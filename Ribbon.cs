@@ -44,7 +44,6 @@ namespace TypicalReply
 
         public Ribbon()
         {
-            CultureInfo.CurrentUICulture = new CultureInfo("zh-CN");
         }
 
         #region IRibbonExtensibility のメンバー
