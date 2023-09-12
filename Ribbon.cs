@@ -81,10 +81,10 @@ namespace TypicalReply
                     {
                         continue;
                     }
-                    if (!string.IsNullOrEmpty(templateConfig.Locale))
+                    if (!string.IsNullOrEmpty(templateConfig.Culture))
                     {
-                        if(templateConfig.Locale != cultureName && 
-                           templateConfig.Locale != lang)
+                        if(templateConfig.Culture != cultureName && 
+                           templateConfig.Culture != lang)
                         {
                             continue;
                         }
@@ -260,15 +260,15 @@ namespace TypicalReply
             }
 
             TemplateConfig config = configs.
-                FirstOrDefault(_ => _.Locale == currentUICultureName);
+                FirstOrDefault(_ => _.Culture == currentUICultureName);
             if (config != null)
             {
                 return config;
             }
 
             config = configs.
-                Where(_ => _.Locale.Length == 2)?.
-                FirstOrDefault(_ => _.Locale == lang);
+                Where(_ => _.Culture.Length == 2)?.
+                FirstOrDefault(_ => _.Culture == lang);
 
             if (config != null)
             {

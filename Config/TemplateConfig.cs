@@ -91,6 +91,6 @@ namespace TypicalReply.Config
         }
         public string Icon { get; set; }
         public ForwardType ForwardType { get; set; }
-        public string Locale { get; set; }
+        public string Culture { get; set; }
     }
 }
