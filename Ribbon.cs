@@ -115,7 +115,6 @@ namespace TypicalReply
         private MailItem GetActiveExplorerMailItem()
         {
             Explorer activeExplorer = Globals.ThisAddIn.Application.ActiveExplorer();
-            //TODO: Accept multiple selection
             if (activeExplorer.Selection.Count > 0 &&
                 activeExplorer.Selection[1] is MailItem selObject)
             {
@@ -131,7 +130,7 @@ namespace TypicalReply
 
         private MailItem CreateNewMail(TemplateConfig config, MailItem selectedMailItem)
         {
-            MailItem itemToReply;
+            MailItem itemToReply = null;
 
             switch (config.RecipientsType)
             {
@@ -161,10 +160,20 @@ namespace TypicalReply
                     break;
             }
 
-            foreach (Recipient recipient in itemToReply.Recipients)
+            if (config.AllowedDomainsType == AllowedDomainsType.UserSpecification)
             {
-                var address = recipient.Address;
-                var name = recipient.Name;
+                var loweredAllowedDomains = config.LoweredAllowedDomains;
+                foreach (Recipient recipient in itemToReply.Recipients)
+                {
+                    RecipientInfo recipientInfo = new RecipientInfo(recipient);
+                    string targetDomain = recipientInfo.Domain.ToLowerInvariant();
+                    if (loweredAllowedDomains.Any(_ => _ == targetDomain))
+                    {
+                        continue;
+                    }
+                    Marshal.ReleaseComObject(itemToReply);
+                    return null;
+                }
             }
 
             if (!string.IsNullOrEmpty(config.Subject))
@@ -244,7 +253,7 @@ namespace TypicalReply
 
             MailItem newMailItem = CreateNewMail(config, selectedMailItem);
 
-            newMailItem.Display();
+            newMailItem?.Display();
         }
 
         public string GetLabel(IRibbonControl control)

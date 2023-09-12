@@ -23,6 +23,13 @@ namespace TypicalReply.Config
         UserSpecification = 4
     }
 
+    public enum AllowedDomainsType
+    {
+        Unknown = 0,
+        All = 1,
+        UserSpecification = 2
+    }
+
     /// <summary>
     /// Config for drop down item
     /// </summary>
@@ -61,10 +68,27 @@ namespace TypicalReply.Config
                 return RecipientsType.UserSpecification;
             }
         }
-            
 
         public bool QuoteType { get; set; }
         public List<string> AllowedDomains { get; set; }
+
+        [JsonIgnore]
+        public List<string> LoweredAllowedDomains => AllowedDomains.Select(_ => _.ToLowerInvariant()).ToList();
+
+        [JsonIgnore]
+        public AllowedDomainsType AllowedDomainsType
+        {
+            get
+            {
+                if (AllowedDomains == null || 
+                    !AllowedDomains.Any() || 
+                    AllowedDomains.First() == "*")
+                {
+                    return AllowedDomainsType.All;
+                }
+                return AllowedDomainsType.UserSpecification;
+            }
+        }
         public string Icon { get; set; }
         public ForwardType ForwardType { get; set; }
         public string Locale { get; set; }
