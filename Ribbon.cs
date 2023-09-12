@@ -124,7 +124,7 @@ namespace TypicalReply
             return null;
         }
 
-        private MailItem GetActiveImspectorMailItem()
+        private MailItem GetActiveInspectorMailItem()
         {
             return Globals.ThisAddIn.Application.ActiveInspector()?.CurrentItem as MailItem;
         }
@@ -235,7 +235,7 @@ namespace TypicalReply
 
             if (control.Id == $"{config.Id}{Global.TabReadMessageGroupGalleryId}")
             {
-                selectedMailItem = GetActiveImspectorMailItem();
+                selectedMailItem = GetActiveInspectorMailItem();
             }
             else
             {
