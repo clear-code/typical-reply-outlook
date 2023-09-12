@@ -207,7 +207,7 @@ namespace TypicalReply
                     case OlBodyFormat.olFormatRichText:
                         itemToReply.BodyFormat = OlBodyFormat.olFormatPlain;
                         replyMessage = "\n\n> -----Original Message-----\n";
-                        replyMessage += string.Join("\n", itemToReply.Body.Split('\n').Select(_ => $"> {_}"));
+                        replyMessage += string.Join("\n", itemToReply.Body.TrimStart().Split('\n').Select(_ => $"> {_}"));
                         break;
                     default:
                         replyMessage = itemToReply.Body;
