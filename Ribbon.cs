@@ -129,11 +129,6 @@ namespace TypicalReply
             return Globals.ThisAddIn.Application.ActiveInspector()?.CurrentItem as MailItem;
         }
 
-        private Outlook.MailItem GetMailItem()
-        {
-            return GetActiveExplorerMailItem() ?? GetActiveImspectorMailItem();
-        }
-
         private MailItem CreateNewMail(TemplateConfig config, MailItem selectedMailItem)
         {
             MailItem itemToReply;
@@ -166,7 +161,7 @@ namespace TypicalReply
                     break;
             }
 
-            foreach(Recipient recipient in itemToReply.Recipients)
+            foreach (Recipient recipient in itemToReply.Recipients)
             {
                 var address = recipient.Address;
                 var name = recipient.Name;
@@ -223,11 +218,11 @@ namespace TypicalReply
         public void OnClickButton(IRibbonControl control)
         {
             TypicalReplyConfig typicalReplyConfig = Global.GetInstance().Config;
-            var config = typicalReplyConfig
+            TemplateConfig config = typicalReplyConfig
                 .TemplateConfigList
                 .FirstOrDefault(_ =>
-                    control.Id == $"{_.Id}{Global.TabMailGroupGalleryId}" || 
-                    control.Id == $"{_.Id}{Global.MenuInContextMenuId}"   ||
+                    control.Id == $"{_.Id}{Global.TabMailGroupGalleryId}" ||
+                    control.Id == $"{_.Id}{Global.MenuInContextMenuId}" ||
                     control.Id == $"{_.Id}{Global.TabReadMessageGroupGalleryId}");
 
             if (config == null)
@@ -235,8 +230,20 @@ namespace TypicalReply
                 //TODO: Logging error;
                 return;
             }
-            MailItem selectedMailItem = GetMailItem();
+
+            MailItem selectedMailItem;
+
+            if (control.Id == $"{config.Id}{Global.TabReadMessageGroupGalleryId}")
+            {
+                selectedMailItem = GetActiveImspectorMailItem();
+            }
+            else
+            {
+                selectedMailItem = GetActiveExplorerMailItem();
+            }
+
             MailItem newMailItem = CreateNewMail(config, selectedMailItem);
+
             newMailItem.Display();
         }
 
