@@ -82,7 +82,7 @@ namespace TypicalReply
                     }
                     if (!string.IsNullOrEmpty(templateConfig.Culture))
                     {
-                        if(templateConfig.Culture != cultureName && 
+                        if (templateConfig.Culture != cultureName &&
                            templateConfig.Culture != lang)
                         {
                             continue;
@@ -259,16 +259,14 @@ namespace TypicalReply
             }
 
             TemplateConfig config = configs.
-                FirstOrDefault(_ => _.Culture == currentUICultureName);
+                FirstOrDefault(_ => _.Culture?.Equals(currentUICultureName) ?? false);
             if (config != null)
             {
                 return config;
             }
 
             config = configs.
-                Where(_ => _.Culture.Length == 2)?.
-                FirstOrDefault(_ => _.Culture == lang);
-
+                FirstOrDefault(_ => _.Culture?.Equals(lang) ?? false);
             if (config != null)
             {
                 return config;
