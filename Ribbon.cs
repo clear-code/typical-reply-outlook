@@ -13,6 +13,8 @@ using Microsoft.Office.Tools.Ribbon;
 using TypicalReply.Config;
 using Microsoft.Office.Core;
 using System.Xml.Linq;
+using System.Globalization;
+using System.Threading;
 
 // TODO:  リボン (XML) アイテムを有効にするには、次の手順に従います:
 
@@ -42,6 +44,7 @@ namespace TypicalReply
 
         public Ribbon()
         {
+            CultureInfo.CurrentUICulture = new CultureInfo("zh-CN");
         }
 
         #region IRibbonExtensibility のメンバー
@@ -67,6 +70,7 @@ namespace TypicalReply
                     (contextDropDownElem, Global.MenuInContextMenuId),
                 };
 
+                (string cultureName, string lang) = GetCurrentUICultureInfo();
                 foreach (var templateConfig in global.Config.TemplateConfigList)
                 {
                     if (string.IsNullOrEmpty(templateConfig.Id))
@@ -76,6 +80,14 @@ namespace TypicalReply
                     if (string.IsNullOrEmpty(templateConfig.Label))
                     {
                         continue;
+                    }
+                    if (!string.IsNullOrEmpty(templateConfig.Locale))
+                    {
+                        if(templateConfig.Locale != cultureName && 
+                           templateConfig.Locale != lang)
+                        {
+                            continue;
+                        }
                     }
                     foreach (var (node, postfix) in targetParams)
                     {
@@ -224,16 +236,50 @@ namespace TypicalReply
             return itemToReply;
         }
 
+        private (string cultureName, string lang) GetCurrentUICultureInfo()
+        {
+            string currentUICultureName = CultureInfo.CurrentUICulture.Name;
+            return (currentUICultureName, currentUICultureName.Split('-')[0]);
+        }
+
+        private TemplateConfig GetTemplateConfig(string id)
+        {
+            (string currentUICultureName, string lang) = GetCurrentUICultureInfo();
+            IEnumerable<TemplateConfig> configs =
+                Global.
+                GetInstance().
+                Config.
+                TemplateConfigList?.
+                Where(_ =>
+                    id == $"{_.Id}{Global.TabMailGroupGalleryId}" ||
+                    id == $"{_.Id}{Global.MenuInContextMenuId}" ||
+                    id == $"{_.Id}{Global.TabReadMessageGroupGalleryId}");
+            if (configs is null || !configs.Any())
+            {
+                return null;
+            }
+
+            TemplateConfig config = configs.
+                FirstOrDefault(_ => _.Locale == currentUICultureName);
+            if (config != null)
+            {
+                return config;
+            }
+
+            config = configs.
+                Where(_ => _.Locale.Length == 2)?.
+                FirstOrDefault(_ => _.Locale == lang);
+
+            if (config != null)
+            {
+                return config;
+            }
+            return configs.FirstOrDefault();
+        }
+
         public void OnClickButton(IRibbonControl control)
         {
-            TypicalReplyConfig typicalReplyConfig = Global.GetInstance().Config;
-            TemplateConfig config = typicalReplyConfig
-                .TemplateConfigList
-                .FirstOrDefault(_ =>
-                    control.Id == $"{_.Id}{Global.TabMailGroupGalleryId}" ||
-                    control.Id == $"{_.Id}{Global.MenuInContextMenuId}" ||
-                    control.Id == $"{_.Id}{Global.TabReadMessageGroupGalleryId}");
-
+            TemplateConfig config = GetTemplateConfig(control.Id);
             if (config == null)
             {
                 //TODO: Logging error;
