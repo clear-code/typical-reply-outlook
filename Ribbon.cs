@@ -36,9 +36,9 @@ using System.Xml.Linq;
 namespace TypicalReply
 {
     [ComVisible(true)]
-    public class Ribbon : Office.IRibbonExtensibility
+    public class Ribbon : IRibbonExtensibility
     {
-        private Office.IRibbonUI ribbon;
+        private IRibbonUI ribbon;
 
         public Ribbon()
         {
@@ -77,11 +77,12 @@ namespace TypicalReply
                     {
                         continue;
                     }
-                    foreach (var (node, postfix) in targetParams) {
+                    foreach (var (node, postfix) in targetParams)
+                    {
                         XmlElement button = xmlDocument.CreateElement("button", namespaceURI);
                         button.SetAttribute("id", $"{templateConfig.Id}{postfix}");
                         button.SetAttribute("label", templateConfig.Label);
-                        button.SetAttribute("onAction", "OnCreateTemplate");
+                        button.SetAttribute("onAction", nameof(OnClickButton));
                         if (!string.IsNullOrEmpty(templateConfig.AccessKey))
                         {
                             button.SetAttribute("keytip", templateConfig.AccessKey);
@@ -104,28 +105,28 @@ namespace TypicalReply
         #region リボンのコールバック
         //ここでコールバック メソッドを作成します。コールバック メソッドの追加について詳しくは https://go.microsoft.com/fwlink/?LinkID=271226 をご覧ください
 
-        public void Ribbon_Load(Office.IRibbonUI ribbonUI)
+        public void Ribbon_Load(IRibbonUI ribbonUI)
         {
             this.ribbon = ribbonUI;
         }
 
         #endregion
 
-        private Outlook.MailItem GetActiveExplorerMailItem()
+        private MailItem GetActiveExplorerMailItem()
         {
-            Outlook.Explorer activeExplorer = Globals.ThisAddIn.Application.ActiveExplorer();
+            Explorer activeExplorer = Globals.ThisAddIn.Application.ActiveExplorer();
             //TODO: Accept multiple selection
             if (activeExplorer.Selection.Count > 0 &&
-                activeExplorer.Selection[1] is Outlook.MailItem selObject)
+                activeExplorer.Selection[1] is MailItem selObject)
             {
                 return selObject;
             }
             return null;
         }
 
-        private Outlook.MailItem GetActiveImspectorMailItem()
+        private MailItem GetActiveImspectorMailItem()
         {
-            return Globals.ThisAddIn.Application.ActiveInspector()?.CurrentItem as Outlook.MailItem;
+            return Globals.ThisAddIn.Application.ActiveInspector()?.CurrentItem as MailItem;
         }
 
         private Outlook.MailItem GetMailItem()
@@ -133,72 +134,93 @@ namespace TypicalReply
             return GetActiveExplorerMailItem() ?? GetActiveImspectorMailItem();
         }
 
-        private Outlook.MailItem CreateNewMail(TemplateConfig config, Outlook.MailItem selectedMailItem)
+        private MailItem CreateNewMail(TemplateConfig config, MailItem selectedMailItem)
         {
-            MailItem newMailItem;
-
-            //Force plain text.
-            //**Copying to avoid a side effect for selectedMailItem**
-            Outlook.MailItem copiedMailItem = selectedMailItem.Copy();
-            copiedMailItem.BodyFormat = OlBodyFormat.olFormatPlain;
+            MailItem itemToReply;
 
             switch (config.RecipientsType)
             {
                 case RecipientsType.All:
-                    newMailItem = copiedMailItem.ReplyAll();
+                    itemToReply = selectedMailItem.ReplyAll();
                     break;
                 case RecipientsType.Sender:
-                    newMailItem = copiedMailItem.Reply();
+                    itemToReply = selectedMailItem.Reply();
                     break;
                 case RecipientsType.UserSpecification:
-                    newMailItem = copiedMailItem.Reply();
-                    newMailItem.Recipients.ResolveAll();
+                    itemToReply = selectedMailItem.Reply();
+                    while (itemToReply.Recipients.Count > 0)
+                    {
+                        itemToReply.Recipients.Remove(1);
+                    }
                     foreach (var recipient in config.Recipients)
                     {
-                        newMailItem.Recipients.Add(recipient);
+                        itemToReply.Recipients.Add(recipient);
                     }
                     break;
                 default:
-                    newMailItem = copiedMailItem.Reply();
-                    newMailItem.Recipients.ResolveAll();
+                    itemToReply = selectedMailItem.Reply();
+                    while (itemToReply.Recipients.Count > 0)
+                    {
+                        itemToReply.Recipients.Remove(1);
+                    }
                     break;
+            }
+
+            foreach(Recipient recipient in itemToReply.Recipients)
+            {
+                var address = recipient.Address;
+                var name = recipient.Name;
             }
 
             if (!string.IsNullOrEmpty(config.Subject))
             {
-                newMailItem.Subject = config.Subject;
+                itemToReply.Subject = config.Subject;
             }
 
             if (!string.IsNullOrEmpty(config.SubjectPrefix))
             {
-                newMailItem.Subject = $"{config.SubjectPrefix} {newMailItem.Subject}";
+                itemToReply.Subject = $"{config.SubjectPrefix} {itemToReply.Subject}";
             }
 
-            if (!config.QuoteType)
+            string replyMessage = "";
+
+            if (config.QuoteType && !string.IsNullOrEmpty(selectedMailItem.Body))
             {
-                newMailItem.Body = "";
+                switch (itemToReply.BodyFormat)
+                {
+                    case OlBodyFormat.olFormatHTML:
+                    case OlBodyFormat.olFormatRichText:
+                        itemToReply.BodyFormat = OlBodyFormat.olFormatPlain;
+                        replyMessage = "\n\n> -----Original Message-----\n";
+                        replyMessage += string.Join("\n", itemToReply.Body.Split('\n').Select(_ => $"> {_}"));
+                        break;
+                    default:
+                        replyMessage = itemToReply.Body;
+                        break;
+                }
             }
 
-            if (!string.IsNullOrEmpty(config.Body))
+            itemToReply.Body = config.Body ?? "";
+            if (!string.IsNullOrEmpty(replyMessage))
             {
-                newMailItem.Body = $"{config.Body}{newMailItem.Body}";
+                itemToReply.Body += replyMessage;
             }
 
             switch (config.ForwardType)
             {
                 case ForwardType.Attachment:
-                    newMailItem.Attachments.Add(selectedMailItem, Outlook.OlAttachmentType.olEmbeddeditem);
+                    itemToReply.Attachments.Add(selectedMailItem, OlAttachmentType.olEmbeddeditem);
                     break;
                 case ForwardType.Inline:
                     //TODO: Support Inline
-                    newMailItem.Attachments.Add(selectedMailItem, Outlook.OlAttachmentType.olEmbeddeditem);
+                    itemToReply.Attachments.Add(selectedMailItem, OlAttachmentType.olEmbeddeditem);
                     break;
             }
 
-            return newMailItem;
+            return itemToReply;
         }
 
-        public void OnCreateTemplate(Office.IRibbonControl control)
+        public void OnClickButton(IRibbonControl control)
         {
             TypicalReplyConfig typicalReplyConfig = Global.GetInstance().Config;
             var config = typicalReplyConfig
@@ -213,12 +235,12 @@ namespace TypicalReply
                 //TODO: Logging error;
                 return;
             }
-            Outlook.MailItem selectedMailItem = GetMailItem();
-            Outlook.MailItem newMailItem = CreateNewMail(config, selectedMailItem);
+            MailItem selectedMailItem = GetMailItem();
+            MailItem newMailItem = CreateNewMail(config, selectedMailItem);
             newMailItem.Display();
         }
 
-        public string GetLabel(Office.IRibbonControl control)
+        public string GetLabel(IRibbonControl control)
         {
             TypicalReplyConfig typicalReplyConfig = Global.GetInstance().Config;
             return typicalReplyConfig.RibbonLabel;
