@@ -3,20 +3,20 @@
 	<ribbon>
 		<tabs>
 			<tab idMso="TabMail">
-				<group id="TypicalReplyTabMailGroup" label="TypicalReply">
-					<gallery id="TypicalReplyTabMailGroupGallery"  getLabel="GetLabel"></gallery>
+				<group id="TypicalReplyTabMailGroup" label="TypicalReply" insertAfterMso="GroupMailRespond">
+					<gallery id="TypicalReplyTabMailGroupGallery" getLabel="GetLabel"></gallery>
 				</group>
 			</tab>
 			<tab idMso="TabReadMessage">
-				<group id="TypicalReplyTabReadMessageGroup" label="TypicalReply">
-					<gallery id="TypicalReplyTabReadMessageGroupGallery"  getLabel="GetLabel"></gallery>
+				<group id="TypicalReplyTabReadMessageGroup" label="TypicalReply" insertAfterMso="GroupRespond">
+					<gallery id="TypicalReplyTabReadMessageGroupGallery" getLabel="GetLabel"></gallery>
 				</group>
 			</tab>
 		</tabs>
 	</ribbon>
 	<contextMenus>
 		<contextMenu idMso="ContextMenuMailItem">
-			<menu id="TypicalReplyMenuInContextMenu" getLabel="GetLabel"></menu>
+			<gallery id="TypicalReplyContextMenuGallery" getLabel="GetLabel" insertAfterMso="Forward"></gallery>
 		</contextMenu>
 	</contextMenus>
 </customUI>

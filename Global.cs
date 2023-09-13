@@ -15,7 +15,7 @@ namespace TypicalReply
         internal static string ConfigFileName { get; } = "TypicalReplyConfig.json";
         internal static string TabMailGroupGalleryId { get; } = "TypicalReplyTabMailGroupGallery";
         internal static string TabReadMessageGroupGalleryId { get; } = "TypicalReplyTabReadMessageGroupGallery";
-        internal static string MenuInContextMenuId { get; } = "TypicalReplyMenuInContextMenu";
+        internal static string ContextMenuGalleryId { get; } = "TypicalReplyContextMenuGallery";
 
         internal string UserConfigPath { get; }
         internal TypicalReplyConfig Config { get; }

@@ -60,13 +60,13 @@ namespace TypicalReply
                 Global global = Global.GetInstance();
                 XmlNode galleryInTabMailElem = xmlDocument.SelectSingleNode($"//*[@id='{Global.TabMailGroupGalleryId}']");
                 XmlNode galleryInTabReadMessageElem = xmlDocument.SelectSingleNode($"//*[@id='{Global.TabReadMessageGroupGalleryId}']");
-                XmlNode contextDropDownElem = xmlDocument.SelectSingleNode($"//*[@id='{Global.MenuInContextMenuId}']");
+                XmlNode contextDropDownElem = xmlDocument.SelectSingleNode($"//*[@id='{Global.ContextMenuGalleryId}']");
 
                 var targetParams = new List<(XmlNode, string)>
                 {
                     (galleryInTabMailElem, Global.TabMailGroupGalleryId),
                     (galleryInTabReadMessageElem, Global.TabReadMessageGroupGalleryId),
-                    (contextDropDownElem, Global.MenuInContextMenuId),
+                    (contextDropDownElem, Global.ContextMenuGalleryId),
                 };
 
                 (string cultureName, string lang) = GetCurrentUICultureInfo();
@@ -251,7 +251,7 @@ namespace TypicalReply
                 TemplateConfigList?.
                 Where(_ =>
                     id == $"{_.Id}{Global.TabMailGroupGalleryId}" ||
-                    id == $"{_.Id}{Global.MenuInContextMenuId}" ||
+                    id == $"{_.Id}{Global.ContextMenuGalleryId}" ||
                     id == $"{_.Id}{Global.TabReadMessageGroupGalleryId}");
             if (configs is null || !configs.Any())
             {
