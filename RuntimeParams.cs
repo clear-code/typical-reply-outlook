@@ -10,7 +10,7 @@ using TypicalReply.Config;
 
 namespace TypicalReply
 {
-    internal class Global
+    internal class RuntimeParams
     {
         #region params
         internal Config.Config Config { get; }
@@ -18,9 +18,9 @@ namespace TypicalReply
 
         #region singletonization
         private static object _lockObject = new object();
-        private static Global _instance = null;         
+        private static RuntimeParams _instance = null;         
 
-        internal Global()
+        internal RuntimeParams()
         {
             try
             {
@@ -35,11 +35,11 @@ namespace TypicalReply
             }
         }
 
-        internal static Global GetInstance()
+        internal static RuntimeParams GetInstance()
         {
             lock (_lockObject)
             {
-                _instance = _instance ?? new Global();
+                _instance = _instance ?? new RuntimeParams();
             }
             return _instance;
         }

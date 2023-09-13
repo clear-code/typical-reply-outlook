@@ -57,7 +57,7 @@ namespace TypicalReply
                 var xmlDocument = new XmlDocument();
                 xmlDocument.LoadXml(ribbonTemplate);
                 string namespaceURI = xmlDocument.ChildNodes[1].NamespaceURI;
-                Global global = Global.GetInstance();
+                RuntimeParams global = RuntimeParams.GetInstance();
                 XmlNode galleryInTabMailElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.TabMailGroupGalleryId}']");
                 XmlNode galleryInTabReadMessageElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.TabReadMessageGroupGalleryId}']");
                 XmlNode contextDropDownElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.ContextMenuGalleryId}']");
@@ -246,7 +246,7 @@ namespace TypicalReply
         public void OnClickButton(IRibbonControl control)
         {
             string id = control.Id;
-            ButtonConfig config = Global.
+            ButtonConfig config = RuntimeParams.
                 GetInstance().
                 Config.
                 ButtonConfigList?.
@@ -278,7 +278,7 @@ namespace TypicalReply
 
         public string GetLabel(IRibbonControl control)
         {
-            Config.Config typicalReplyConfig = Global.GetInstance().Config;
+            Config.Config typicalReplyConfig = RuntimeParams.GetInstance().Config;
             return typicalReplyConfig.GalleryLabel;
         }
 

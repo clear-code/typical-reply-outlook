@@ -195,7 +195,7 @@
     <Compile Include="Config\ButtonConfig.cs" />
     <Compile Include="Config\StandardPath.cs" />
     <Compile Include="Const.cs" />
-    <Compile Include="Global.cs" />
+    <Compile Include="RuntimeParams.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
