@@ -141,34 +141,34 @@ namespace TypicalReply
             return Globals.ThisAddIn.Application.ActiveInspector()?.CurrentItem as MailItem;
         }
 
-        private MailItem CreateNewMail(ButtonConfig config, MailItem selectedMailItem)
+        private MailItem CreateReplyMail(ButtonConfig config, MailItem selectedMailItem)
         {
-            MailItem itemToReply = null;
+            MailItem mailItemToReply = null;
 
             switch (config.RecipientsType)
             {
                 case RecipientsType.All:
-                    itemToReply = selectedMailItem.ReplyAll();
+                    mailItemToReply = selectedMailItem.ReplyAll();
                     break;
                 case RecipientsType.Sender:
-                    itemToReply = selectedMailItem.Reply();
+                    mailItemToReply = selectedMailItem.Reply();
                     break;
                 case RecipientsType.UserSpecification:
-                    itemToReply = selectedMailItem.Reply();
-                    while (itemToReply.Recipients.Count > 0)
+                    mailItemToReply = selectedMailItem.Reply();
+                    while (mailItemToReply.Recipients.Count > 0)
                     {
-                        itemToReply.Recipients.Remove(1);
+                        mailItemToReply.Recipients.Remove(1);
                     }
                     foreach (var recipient in config.Recipients)
                     {
-                        itemToReply.Recipients.Add(recipient);
+                        mailItemToReply.Recipients.Add(recipient);
                     }
                     break;
                 default:
-                    itemToReply = selectedMailItem.Reply();
-                    while (itemToReply.Recipients.Count > 0)
+                    mailItemToReply = selectedMailItem.Reply();
+                    while (mailItemToReply.Recipients.Count > 0)
                     {
-                        itemToReply.Recipients.Remove(1);
+                        mailItemToReply.Recipients.Remove(1);
                     }
                     break;
             }
@@ -176,7 +176,7 @@ namespace TypicalReply
             if (config.AllowedDomainsType == AllowedDomainsType.UserSpecification)
             {
                 var loweredAllowedDomains = config.LoweredAllowedDomains;
-                foreach (Recipient recipient in itemToReply.Recipients)
+                foreach (Recipient recipient in mailItemToReply.Recipients)
                 {
                     RecipientInfo recipientInfo = new RecipientInfo(recipient);
                     string targetDomain = recipientInfo.Domain.ToLowerInvariant();
@@ -184,57 +184,57 @@ namespace TypicalReply
                     {
                         continue;
                     }
-                    Marshal.ReleaseComObject(itemToReply);
+                    Marshal.ReleaseComObject(mailItemToReply);
                     return null;
                 }
             }
 
             if (!string.IsNullOrEmpty(config.Subject))
             {
-                itemToReply.Subject = config.Subject;
+                mailItemToReply.Subject = config.Subject;
             }
 
             if (!string.IsNullOrEmpty(config.SubjectPrefix))
             {
-                itemToReply.Subject = $"{config.SubjectPrefix} {itemToReply.Subject}";
+                mailItemToReply.Subject = $"{config.SubjectPrefix} {mailItemToReply.Subject}";
             }
 
             string replyMessage = "";
 
             if (config.QuoteType && !string.IsNullOrEmpty(selectedMailItem.Body))
             {
-                switch (itemToReply.BodyFormat)
+                switch (mailItemToReply.BodyFormat)
                 {
                     case OlBodyFormat.olFormatHTML:
                     case OlBodyFormat.olFormatRichText:
-                        itemToReply.BodyFormat = OlBodyFormat.olFormatPlain;
+                        mailItemToReply.BodyFormat = OlBodyFormat.olFormatPlain;
                         replyMessage = "\n\n> -----Original Message-----\n";
-                        replyMessage += string.Join("\n", itemToReply.Body.TrimStart().Split('\n').Select(_ => $"> {_}"));
+                        replyMessage += string.Join("\n", mailItemToReply.Body.TrimStart().Split('\n').Select(_ => $"> {_}"));
                         break;
                     default:
-                        replyMessage = itemToReply.Body;
+                        replyMessage = mailItemToReply.Body;
                         break;
                 }
             }
 
-            itemToReply.Body = config.Body ?? "";
+            mailItemToReply.Body = config.Body ?? "";
             if (!string.IsNullOrEmpty(replyMessage))
             {
-                itemToReply.Body += replyMessage;
+                mailItemToReply.Body += replyMessage;
             }
 
             switch (config.ForwardType)
             {
                 case ForwardType.Attachment:
-                    itemToReply.Attachments.Add(selectedMailItem, OlAttachmentType.olEmbeddeditem);
+                    mailItemToReply.Attachments.Add(selectedMailItem, OlAttachmentType.olEmbeddeditem);
                     break;
                 case ForwardType.Inline:
                     //TODO: Support Inline
-                    itemToReply.Attachments.Add(selectedMailItem, OlAttachmentType.olEmbeddeditem);
+                    mailItemToReply.Attachments.Add(selectedMailItem, OlAttachmentType.olEmbeddeditem);
                     break;
             }
 
-            return itemToReply;
+            return mailItemToReply;
         }
 
         private (string cultureName, string lang) GetCurrentUICultureInfo()
@@ -271,9 +271,8 @@ namespace TypicalReply
                 selectedMailItem = GetActiveExplorerMailItem();
             }
 
-            MailItem newMailItem = CreateNewMail(config, selectedMailItem);
-
-            newMailItem?.Display();
+            MailItem replyMail = CreateReplyMail(config, selectedMailItem);
+            replyMail?.Display();
         }
 
         public string GetLabel(IRibbonControl control)
