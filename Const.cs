@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TypicalReply.Config;
 
 namespace TypicalReply
 {
@@ -14,11 +16,16 @@ namespace TypicalReply
             internal static readonly string Policy = @"SOFTWARE\Policies\TypicalReply";
         }
 
+        internal static class Config
+        {
+            internal static readonly string FileName = @"TypicalReplyConfig.json";
+        }
+
         internal static class Button
         {
-            internal static string TabMailGroupGalleryId { get; } = "TypicalReplyTabMailGroupGallery";
-            internal static string TabReadMessageGroupGalleryId { get; } = "TypicalReplyTabReadMessageGroupGallery";
-            internal static string ContextMenuGalleryId { get; } = "TypicalReplyContextMenuGallery";
+            internal static readonly string TabMailGroupGalleryId = "TypicalReplyTabMailGroupGallery";
+            internal static readonly string TabReadMessageGroupGalleryId  = "TypicalReplyTabReadMessageGroupGallery";
+            internal static readonly string ContextMenuGalleryId  = "TypicalReplyContextMenuGallery";
         }
     }
 }

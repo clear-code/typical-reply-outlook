@@ -19,7 +19,7 @@
       <parentCategory ref="TypicalReplyDefault"/>
       <supportedOn ref="SUPPORTED_NotSpecified"/>
       <elements>
-        <multiText id="TypicalReplyConfig" valueName="TypicalReplyConfig"/>
+        <multiText id="TypicalReplyConfig" valueName="TypicalReplyConfig" maxLength="32766"/>
       </elements>
     </policy>
   </policies>

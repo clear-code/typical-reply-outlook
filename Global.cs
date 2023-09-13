@@ -13,7 +13,6 @@ namespace TypicalReply
     internal class Global
     {
         #region params
-        private static string ConfigFileName { get; } = "TypicalReplyConfig.json";
         internal Config.Config Config { get; }
         #endregion
 
@@ -23,32 +22,17 @@ namespace TypicalReply
 
         internal Global()
         {
-            string userConfigPath = Path.Combine(StandardPath.GetUserDir(), ConfigFileName);
             try
             {
-                TypicalReplyConfig typicalReplyConfig = ConfigSerializer<TypicalReplyConfig>.LoadFromFile(userConfigPath);
-                if (typicalReplyConfig?.ConfigList is null || !typicalReplyConfig.ConfigList.Any())
-                {
-                    throw new Exception("Invalid config file.");
-                }
-                string culture = CultureInfo.CurrentUICulture.Name;
-                Config = typicalReplyConfig.ConfigList.FirstOrDefault(_ => _.Culture?.Equals(culture) ?? false);
-                if (Config is null)
-                {
-                    string lang = culture.Split('-')[0];
-                    Config = typicalReplyConfig.ConfigList.FirstOrDefault(_ => _.Culture?.Equals(lang) ?? false);
-                }
-                if (Config is null)
-                {
-                    Config = typicalReplyConfig.ConfigList.FirstOrDefault();
-                }
+                string configFilePath = Path.Combine(StandardPath.GetUserDir(), Const.Config.FileName);
+                var configLoader = new ConfigLoader(configFilePath, Const.RegistryPath.DefaultPolicy);
+                this.Config = configLoader.Load();
             }
             catch (Exception ex)
             {
                 Logger.Log(ex);
                 throw;
             }
-
         }
 
         internal static Global GetInstance()

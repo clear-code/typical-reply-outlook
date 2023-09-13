@@ -17,6 +17,11 @@ namespace TypicalReply.Config
             PropertyNameCaseInsensitive = true,
         };
 
+        internal static T Deserialize(string jsonString)
+        {
+            return JsonSerializer.Deserialize<T>(jsonString, _options);
+        }
+
         internal static T LoadFromFile(string filePath)
         {
             if (!File.Exists(filePath))
@@ -24,7 +29,7 @@ namespace TypicalReply.Config
                 return default;
             }
             var jsonString = File.ReadAllText(filePath, Encoding.UTF8);
-            return JsonSerializer.Deserialize<T>(jsonString, _options);
+            return Deserialize(jsonString);
         }
 
         internal static void SaveAsFile(T obj, string filePath)
