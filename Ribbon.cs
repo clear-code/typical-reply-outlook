@@ -256,7 +256,7 @@ namespace TypicalReply
                     id == $"{_.Id}{Const.Button.TabReadMessageGroupGalleryId}");
             if (config is null)
             {
-                //TODO: Logging error;
+                Logger.Log("Failed to get the target button config");
                 return;
             }
 
