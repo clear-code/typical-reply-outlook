@@ -70,7 +70,7 @@ namespace TypicalReply
                 };
 
                 (string cultureName, string lang) = GetCurrentUICultureInfo();
-                foreach (var templateConfig in global.Config.TemplateConfigList)
+                foreach (var templateConfig in global.Config.ButtonConfigList)
                 {
                     if (string.IsNullOrEmpty(templateConfig.Id))
                     {
@@ -79,14 +79,6 @@ namespace TypicalReply
                     if (string.IsNullOrEmpty(templateConfig.Label))
                     {
                         continue;
-                    }
-                    if (!string.IsNullOrEmpty(templateConfig.Culture))
-                    {
-                        if (templateConfig.Culture != cultureName &&
-                           templateConfig.Culture != lang)
-                        {
-                            continue;
-                        }
                     }
                     foreach (var (node, postfix) in targetParams)
                     {
@@ -139,7 +131,7 @@ namespace TypicalReply
             return Globals.ThisAddIn.Application.ActiveInspector()?.CurrentItem as MailItem;
         }
 
-        private MailItem CreateNewMail(TemplateConfig config, MailItem selectedMailItem)
+        private MailItem CreateNewMail(ButtonConfig config, MailItem selectedMailItem)
         {
             MailItem itemToReply = null;
 
@@ -241,43 +233,18 @@ namespace TypicalReply
             return (currentUICultureName, currentUICultureName.Split('-')[0]);
         }
 
-        private TemplateConfig GetTemplateConfig(string id)
+        public void OnClickButton(IRibbonControl control)
         {
-            (string currentUICultureName, string lang) = GetCurrentUICultureInfo();
-            IEnumerable<TemplateConfig> configs =
-                Global.
+            string id = control.Id;
+            ButtonConfig config = Global.
                 GetInstance().
                 Config.
-                TemplateConfigList?.
-                Where(_ =>
+                ButtonConfigList?.
+                FirstOrDefault(_ =>
                     id == $"{_.Id}{Global.TabMailGroupGalleryId}" ||
                     id == $"{_.Id}{Global.ContextMenuGalleryId}" ||
                     id == $"{_.Id}{Global.TabReadMessageGroupGalleryId}");
-            if (configs is null || !configs.Any())
-            {
-                return null;
-            }
-
-            TemplateConfig config = configs.
-                FirstOrDefault(_ => _.Culture?.Equals(currentUICultureName) ?? false);
-            if (config != null)
-            {
-                return config;
-            }
-
-            config = configs.
-                FirstOrDefault(_ => _.Culture?.Equals(lang) ?? false);
-            if (config != null)
-            {
-                return config;
-            }
-            return configs.FirstOrDefault();
-        }
-
-        public void OnClickButton(IRibbonControl control)
-        {
-            TemplateConfig config = GetTemplateConfig(control.Id);
-            if (config == null)
+            if (config is null)
             {
                 //TODO: Logging error;
                 return;
@@ -301,8 +268,8 @@ namespace TypicalReply
 
         public string GetLabel(IRibbonControl control)
         {
-            TypicalReplyConfig typicalReplyConfig = Global.GetInstance().Config;
-            return typicalReplyConfig.RibbonLabel;
+            Config.Config typicalReplyConfig = Global.GetInstance().Config;
+            return typicalReplyConfig.GalleryLabel;
         }
 
         #region ヘルパー

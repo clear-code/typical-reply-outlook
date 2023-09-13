@@ -7,8 +7,10 @@ using System.Windows.Forms;
 
 namespace TypicalReply.Config
 {
-    public class TypicalReplyConfig
+    public class Config
     {
-        public List<Config> ConfigList { get; set; }
+        public string Culture { get; set; }
+        public string GalleryLabel { get; set; } = "Typical Reply";
+        public List<ButtonConfig> ButtonConfigList { get; set; }
     }
 }

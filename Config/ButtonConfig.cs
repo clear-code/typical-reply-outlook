@@ -33,7 +33,7 @@ namespace TypicalReply.Config
     /// <summary>
     /// Config for drop down item
     /// </summary>
-    public class TemplateConfig
+    public class ButtonConfig
     {
         public string Id { get; set; }
         public string Label { get; set; }
@@ -91,6 +91,5 @@ namespace TypicalReply.Config
         }
         public string Icon { get; set; }
         public ForwardType ForwardType { get; set; }
-        public string Culture { get; set; }
     }
 }

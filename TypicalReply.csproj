@@ -187,9 +187,10 @@
     can be found.
   -->
   <ItemGroup>
-    <Compile Include="Config\ConfigSerializer.cs" />
     <Compile Include="Config\TypicalReplyConfig.cs" />
-    <Compile Include="Config\TemplateConfig.cs" />
+    <Compile Include="Config\ConfigSerializer.cs" />
+    <Compile Include="Config\Config.cs" />
+    <Compile Include="Config\ButtonConfig.cs" />
     <Compile Include="Config\StandardPath.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Logger.cs" />
