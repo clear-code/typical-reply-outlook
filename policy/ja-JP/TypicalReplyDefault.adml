@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<policyDefinitionResources revision="2.4" schemaVersion="1.0" >
+  <displayName/>
+  <description/>
+  <resources>
+    <stringTable>
+      <string id="Default">既定値</string>
+      <string id="TypicalReplyConfig">TypicalReply設定</string>
+      <string id="TypicalReplyConfig_Explain">TypicalReplyの設定をJSON形式で指定します。</string>
+    </stringTable>
+    <presentationTable>
+      <presentation id="TypicalReplyConfig">
+        <multiTextBox refId="TypicalReplyConfig"/>
+      </presentation>
+    </presentationTable>
+  </resources>
+</policyDefinitionResources>

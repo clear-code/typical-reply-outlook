@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<policyDefinitions revision="1.0" schemaVersion="1.0">
+  <policyNamespaces>
+    <target namespace="TypicalReply.Policies" prefix="TypicalReply"/>
+  </policyNamespaces>
+  <resources minRequiredRevision="1.0"/>
+  <categories>
+    <category displayName="$(string.TypicalReply)" name="TypicalReply"/>
+  </categories>
+</policyDefinitions>

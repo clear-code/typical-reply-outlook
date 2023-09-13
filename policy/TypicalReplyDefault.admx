@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<policyDefinitions revision="2.4" schemaVersion="1.0">
+  <policyNamespaces>
+    <target prefix="TypicalReplyDefault" namespace="TypicalReply.Policies.Default"/>
+    <using prefix="TypicalReply" namespace="TypicalReply.Policies"/>
+  </policyNamespaces>
+  <resources minRequiredRevision="2.4"/>
+  <categories>
+    <category displayName="$(string.Default)" name="TypicalReplyDefault">
+      <parentCategory ref="TypicalReply:TypicalReply"/>
+    </category>
+  </categories>
+  <policies>
+    <policy name="TypicalReplyConfig"
+        displayName="$(string.TypicalReplyConfig)"
+        explainText="$(string.TypicalReplyConfig_Explain)"
+        presentation="$(presentation.TypicalReplyConfig)"
+        class="Machine" key="SOFTWARE\Policies\TypicalReply\Default">
+      <parentCategory ref="TypicalReplyDefault"/>
+      <supportedOn ref="SUPPORTED_NotSpecified"/>
+      <elements>
+        <multiText id="TypicalReplyConfig" valueName="TypicalReplyConfig"/>
+      </elements>
+    </policy>
+  </policies>
+</policyDefinitions>
