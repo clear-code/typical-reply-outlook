@@ -113,6 +113,16 @@ namespace TypicalReply
             this.ribbon = ribbonUI;
         }
 
+        public virtual object Ribbon_LoadImage(string imageName)
+        {
+            switch (imageName)
+            {
+                case "logo.png":
+                    return Properties.Resources.logo;
+            }
+            return null;
+        }
+
         #endregion
 
         private MailItem GetActiveExplorerMailItem()
