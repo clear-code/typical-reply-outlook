@@ -252,7 +252,7 @@ namespace TypicalReply
 
             MailItem selectedMailItem;
 
-            if (control.Id == $"{config.Id}{Global.TabReadMessageGroupGalleryId}")
+            if (control.Id == $"{config.Id}{Const.Button.TabReadMessageGroupGalleryId}")
             {
                 selectedMailItem = GetActiveInspectorMailItem();
             }
