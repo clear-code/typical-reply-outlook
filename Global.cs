@@ -13,12 +13,7 @@ namespace TypicalReply
     internal class Global
     {
         #region params
-        internal static string ConfigFileName { get; } = "TypicalReplyConfig.json";
-        internal static string TabMailGroupGalleryId { get; } = "TypicalReplyTabMailGroupGallery";
-        internal static string TabReadMessageGroupGalleryId { get; } = "TypicalReplyTabReadMessageGroupGallery";
-        internal static string ContextMenuGalleryId { get; } = "TypicalReplyContextMenuGallery";
-
-        internal string UserConfigPath { get; }
+        private static string ConfigFileName { get; } = "TypicalReplyConfig.json";
         internal Config.Config Config { get; }
         #endregion
 
@@ -28,10 +23,10 @@ namespace TypicalReply
 
         internal Global()
         {
-            UserConfigPath = Path.Combine(StandardPath.GetUserDir(), ConfigFileName);
+            string userConfigPath = Path.Combine(StandardPath.GetUserDir(), ConfigFileName);
             try
             {
-                TypicalReplyConfig typicalReplyConfig = ConfigSerializer<TypicalReplyConfig>.LoadFromFile(UserConfigPath);
+                TypicalReplyConfig typicalReplyConfig = ConfigSerializer<TypicalReplyConfig>.LoadFromFile(userConfigPath);
                 if (typicalReplyConfig?.ConfigList is null || !typicalReplyConfig.ConfigList.Any())
                 {
                     throw new Exception("Invalid config file.");

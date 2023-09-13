@@ -58,15 +58,15 @@ namespace TypicalReply
                 xmlDocument.LoadXml(ribbonTemplate);
                 string namespaceURI = xmlDocument.ChildNodes[1].NamespaceURI;
                 Global global = Global.GetInstance();
-                XmlNode galleryInTabMailElem = xmlDocument.SelectSingleNode($"//*[@id='{Global.TabMailGroupGalleryId}']");
-                XmlNode galleryInTabReadMessageElem = xmlDocument.SelectSingleNode($"//*[@id='{Global.TabReadMessageGroupGalleryId}']");
-                XmlNode contextDropDownElem = xmlDocument.SelectSingleNode($"//*[@id='{Global.ContextMenuGalleryId}']");
+                XmlNode galleryInTabMailElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.TabMailGroupGalleryId}']");
+                XmlNode galleryInTabReadMessageElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.TabReadMessageGroupGalleryId}']");
+                XmlNode contextDropDownElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.ContextMenuGalleryId}']");
 
                 var targetParams = new List<(XmlNode, string)>
                 {
-                    (galleryInTabMailElem, Global.TabMailGroupGalleryId),
-                    (galleryInTabReadMessageElem, Global.TabReadMessageGroupGalleryId),
-                    (contextDropDownElem, Global.ContextMenuGalleryId),
+                    (galleryInTabMailElem, Const.Button.TabMailGroupGalleryId),
+                    (galleryInTabReadMessageElem, Const.Button.TabReadMessageGroupGalleryId),
+                    (contextDropDownElem, Const.Button.ContextMenuGalleryId),
                 };
 
                 (string cultureName, string lang) = GetCurrentUICultureInfo();
@@ -241,9 +241,9 @@ namespace TypicalReply
                 Config.
                 ButtonConfigList?.
                 FirstOrDefault(_ =>
-                    id == $"{_.Id}{Global.TabMailGroupGalleryId}" ||
-                    id == $"{_.Id}{Global.ContextMenuGalleryId}" ||
-                    id == $"{_.Id}{Global.TabReadMessageGroupGalleryId}");
+                    id == $"{_.Id}{Const.Button.TabMailGroupGalleryId}" ||
+                    id == $"{_.Id}{Const.Button.ContextMenuGalleryId}" ||
+                    id == $"{_.Id}{Const.Button.TabReadMessageGroupGalleryId}");
             if (config is null)
             {
                 //TODO: Logging error;
