@@ -187,11 +187,13 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="Config\Registry.cs" />
     <Compile Include="Config\TypicalReplyConfig.cs" />
     <Compile Include="Config\ConfigSerializer.cs" />
     <Compile Include="Config\Config.cs" />
     <Compile Include="Config\ButtonConfig.cs" />
     <Compile Include="Config\StandardPath.cs" />
+    <Compile Include="Const.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
