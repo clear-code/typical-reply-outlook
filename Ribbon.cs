@@ -184,6 +184,7 @@ namespace TypicalReply
                     {
                         continue;
                     }
+                    Logger.Log($"Prohibited domain: {targetDomain}");
                     Marshal.ReleaseComObject(mailItemToReply);
                     return null;
                 }
@@ -270,6 +271,11 @@ namespace TypicalReply
                 selectedMailItem = GetActiveExplorerMailItem();
             }
 
+            if (selectedMailItem is null)
+            {
+                Logger.Log("No MailItem found");
+                return;
+            }
             MailItem replyMail = CreateReplyMail(config, selectedMailItem);
             replyMail?.Display();
         }

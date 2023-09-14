@@ -92,10 +92,14 @@ namespace TypicalReply.Config
             }
             if (registryConfig is null)
             {
+                Logger.Log("Registy config not found");
+                Logger.Log("Config file found");
                 return fileConfig;
             }
             if (fileConfig is null)
             {
+                Logger.Log("Config file not found");
+                Logger.Log("Registy config found");
                 return registryConfig;
             }
             return registryConfig.Merge(fileConfig);
