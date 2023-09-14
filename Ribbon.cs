@@ -86,10 +86,10 @@ namespace TypicalReply
                         button.SetAttribute("id", $"{templateConfig.Id}{postfix}");
                         button.SetAttribute("label", templateConfig.Label);
                         button.SetAttribute("onAction", nameof(OnClickButton));
-                        if (!string.IsNullOrEmpty(templateConfig.AccessKey))
-                        {
-                            button.SetAttribute("keytip", templateConfig.AccessKey);
-                        }
+                        //if (!string.IsNullOrEmpty(templateConfig.AccessKey))
+                        //{
+                        //    button.SetAttribute("keytip", templateConfig.AccessKey);
+                        //}
                         node.AppendChild(button);
                     }
                 }
@@ -261,7 +261,6 @@ namespace TypicalReply
             }
 
             MailItem selectedMailItem;
-
             if (control.Id == $"{config.Id}{Const.Button.TabReadMessageGroupGalleryId}")
             {
                 selectedMailItem = GetActiveInspectorMailItem();

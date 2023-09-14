@@ -46,7 +46,6 @@ namespace TypicalReply.Config
         public string SubjectPrefix { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
-        public string BodyImage { get; set; }
         public List<string> Recipients { get; set; }
 
         [JsonIgnore]
@@ -89,7 +88,6 @@ namespace TypicalReply.Config
                 return AllowedDomainsType.UserSpecification;
             }
         }
-        public string Icon { get; set; }
         public ForwardType ForwardType { get; set; }
     }
 }
