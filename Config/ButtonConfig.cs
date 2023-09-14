@@ -31,7 +31,7 @@ namespace TypicalReply.Config
     }
 
     /// <summary>
-    /// Config for drop down item
+    /// Config for button
     /// </summary>
     public class ButtonConfig
     {
