@@ -20,14 +20,14 @@ namespace TypicalReply.Config
         Blank = 1,
         Sender = 2,
         All = 3,
-        UserSpecification = 4
+        SpecifiedByUser = 4
     }
 
     public enum AllowedDomainsType
     {
         Unknown = 0,
         All = 1,
-        UserSpecification = 2
+        SpecifiedByUser = 2
     }
 
     /// <summary>
@@ -36,6 +36,7 @@ namespace TypicalReply.Config
     public class ButtonConfig
     {
         public string Id { get; set; }
+
         public string Label { get; set; }
 
         /// <summary>
@@ -43,9 +44,13 @@ namespace TypicalReply.Config
         /// This is not work for now.
         /// </summary>
         //public string AccessKey { get; set; }
+
         public string SubjectPrefix { get; set; }
+
         public string Subject { get; set; }
+
         public string Body { get; set; }
+
         public List<string> Recipients { get; set; }
 
         [JsonIgnore]
@@ -64,11 +69,12 @@ namespace TypicalReply.Config
                     // In that case, users may actually specify "UserSpecification", so this works fine.
                     return receipients;
                 }
-                return RecipientsType.UserSpecification;
+                return RecipientsType.SpecifiedByUser;
             }
         }
 
         public bool QuoteType { get; set; }
+
         public List<string> AllowedDomains { get; set; }
 
         [JsonIgnore]
@@ -79,15 +85,16 @@ namespace TypicalReply.Config
         {
             get
             {
-                if (AllowedDomains == null || 
-                    !AllowedDomains.Any() || 
+                if (AllowedDomains == null ||
+                    !AllowedDomains.Any() ||
                     AllowedDomains.First() == "*")
                 {
                     return AllowedDomainsType.All;
                 }
-                return AllowedDomainsType.UserSpecification;
+                return AllowedDomainsType.SpecifiedByUser;
             }
         }
+
         public ForwardType ForwardType { get; set; }
     }
 }

@@ -152,7 +152,7 @@ namespace TypicalReply
                 case RecipientsType.Sender:
                     mailItemToReply = selectedMailItem.Reply();
                     break;
-                case RecipientsType.UserSpecification:
+                case RecipientsType.SpecifiedByUser:
                     mailItemToReply = selectedMailItem.Reply();
                     while (mailItemToReply.Recipients.Count > 0)
                     {
@@ -172,7 +172,7 @@ namespace TypicalReply
                     break;
             }
 
-            if (config.AllowedDomainsType == AllowedDomainsType.UserSpecification)
+            if (config.AllowedDomainsType == AllowedDomainsType.SpecifiedByUser)
             {
                 var loweredAllowedDomains = config.LoweredAllowedDomains;
                 foreach (Recipient recipient in mailItemToReply.Recipients)
