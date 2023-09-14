@@ -42,7 +42,7 @@ namespace TypicalReply.Config
         /// Shortcut key for this item
         /// This is not work for now.
         /// </summary>
-        public string AccessKey { get; set; }
+        //public string AccessKey { get; set; }
         public string SubjectPrefix { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
