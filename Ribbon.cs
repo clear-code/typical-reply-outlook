@@ -69,7 +69,6 @@ namespace TypicalReply
                     (contextDropDownElem, Const.Button.ContextMenuGalleryId),
                 };
 
-                (string cultureName, string lang) = GetCurrentUICultureInfo();
                 foreach (var templateConfig in global.Config.ButtonConfigList)
                 {
                     if (string.IsNullOrEmpty(templateConfig.Id))
@@ -236,12 +235,6 @@ namespace TypicalReply
             }
 
             return mailItemToReply;
-        }
-
-        private (string cultureName, string lang) GetCurrentUICultureInfo()
-        {
-            string currentUICultureName = CultureInfo.CurrentUICulture.Name;
-            return (currentUICultureName, currentUICultureName.Split('-')[0]);
         }
 
         public void OnClickButton(IRibbonControl control)
