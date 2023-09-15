@@ -1,0 +1,110 @@
+{
+    "ConfigList": [
+        {
+            "Culture": "ja",
+            "GalleryLabel": "テストボタン",
+            "ButtonConfigList": [
+                {
+                    "label": "idなし。表示されない"
+                },
+                {
+                    "id": "hidden-because-no-label"
+                },
+                {
+                    "id": "OnlyIdAndLabel",
+                    "label": "idとラベルのみ"
+                },
+                {
+                    "id": "SubjectPrefix",
+                    "label": "SubjectPrefix指定",
+                    "subjectPrefix": "[[件名のプレフィックス]]"
+                },
+                {
+                    "id": "Subject",
+                    "label": "Subject指定",
+                    "subject": "新しい件名"
+                },
+                {
+                    "id": "Body",
+                    "label": "Body指定",
+                    "body": "新しい本文"
+                },
+                {
+                    "id": "BodyAnd",
+                    "label": "Bodyと引用指定",
+                    "body": "新しい本文",
+                    "quoteType": true
+                },
+                {
+                    "id": "AllowedDomainsAster",
+                    "label": "AllowedDomainsにアスタリスク",
+                    "allowedDomains": [
+                        "*"
+                    ],
+                    "recipients": [
+                        "test@test.co.jp",
+                        "test@test2.co.jp"
+                    ]
+                },
+                {
+                    "id": "AllowedDomainsSpecifiedOK",
+                    "label": "AllowedDomainsにtest.co.jp、test2.co.jpで送信先も同じ",
+                    "allowedDomains": [
+                        "test.co.jp",
+                        "test2.co.jp"
+                    ],
+                    "recipients": [
+                        "test@test.co.jp",
+                        "test@test2.co.jp"
+                    ]
+                },
+                {
+                    "id": "AllowedDomainsSpecifiedNG",
+                    "label": "AllowedDomainsにtest.co.jp、test2.co.jpで送信先は違う",
+                    "allowedDomains": [
+                        "test.co.jp",
+                        "test2.co.jp"
+                    ],
+                    "recipients": [
+                        "test@test.co.jp",
+                        "test@test3.co.jp"
+                    ]
+                },
+                {
+                    "id": "RecipientsBlank",
+                    "label": "RecipientsにBlank指定",
+                    "recipients": [
+                        "blank"
+                    ]
+                },
+                {
+                    "id": "RecipientsSender",
+                    "label": "RecipientsにSender指定",
+                    "recipients": [
+                        "sender"
+                    ]
+                },
+                {
+                    "id": "RecipientsAll",
+                    "label": "RecipientsにAll指定",
+                    "recipients": [
+                        "all"
+                    ]
+                },
+                {
+                    "id": "RecipientsSpecifiedByUSer",
+                    "label": "Recipientsを個別にtest@test.co.jp、test@test2.co.jpに指定",
+                    "recipients": [
+                        "test@test.co.jp",
+                        "test@test2.co.jp"
+                    ]
+                },
+                {
+                    "id": "ForwardTypeAttachment",
+                    "label": "ForwardTypeにAttachmentを指定",
+                    "forwardType": "attachment"
+                }
+            ]
+        }
+    ]
+}
