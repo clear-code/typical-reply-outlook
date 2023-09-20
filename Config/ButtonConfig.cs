@@ -65,8 +65,8 @@ namespace TypicalReply.Config
                 RecipientsType receipients;
                 if (Enum.TryParse(this.Recipients[0], true, out receipients))
                 {
-                    // If "UserSpecification" is specified, this returns Recipients.UserSpecification.
-                    // In that case, users may actually specify "UserSpecification", so this works fine.
+                    // If "SpecifiedByUser" is specified, this returns Recipients.SpecifiedByUser.
+                    // In that case, users may actually specify "SpecifiedByUser", so this works fine.
                     return receipients;
                 }
                 return RecipientsType.SpecifiedByUser;
