@@ -4,9 +4,9 @@
   <description/>
   <resources>
     <stringTable>
-      <string id="Default">既定値</string>
-      <string id="TypicalReplyConfig">TypicalReply設定</string>
-      <string id="TypicalReplyConfig_Explain">TypicalReplyの設定をJSON形式で指定します。</string>
+      <string id="Default">Default</string>
+      <string id="TypicalReplyConfig">TypicalReply Setting</string>
+      <string id="TypicalReplyConfig_Explain">Specify TypicalReply setting as JSON.</string>
     </stringTable>
     <presentationTable>
       <presentation id="TypicalReplyConfig">
