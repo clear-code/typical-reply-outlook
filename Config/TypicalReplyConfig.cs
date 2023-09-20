@@ -9,6 +9,7 @@ namespace TypicalReply.Config
 {
     public class TypicalReplyConfig
     {
+        public int Priority { get; set; }
         public List<Config> ConfigList { get; set; }
     }
 }

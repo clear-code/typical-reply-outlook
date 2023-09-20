@@ -80,7 +80,10 @@ namespace TypicalReply.Config
             TypicalReplyConfig registryTypicalReplyConfig = LoadFromRegistry();
             TypicalReplyConfig fileTypicalReplyConfig = LoadFromFile();
 
-            if(registryTypicalReplyConfig is null && fileTypicalReplyConfig is null)
+            int registryPriority = registryTypicalReplyConfig?.Priority ?? -1;
+            int filePriority = fileTypicalReplyConfig?.Priority ?? -1;
+
+            if (registryTypicalReplyConfig is null && fileTypicalReplyConfig is null)
             {
                 throw new Exception("No TypicalReplyConfig found");
             }
@@ -102,7 +105,18 @@ namespace TypicalReply.Config
                 Logger.Log("Registy config found");
                 return registryConfig;
             }
-            return registryConfig.Merge(fileConfig);
+            if (registryPriority == filePriority)
+            {
+                return registryConfig.Merge(fileConfig);
+            }
+            else if(registryPriority > filePriority)
+            {
+                return registryConfig;
+            }
+            else
+            {
+                return fileConfig;
+            }
         }
     }
 }
