@@ -45,3 +45,7 @@ Source: "bin\Release\TypicalReply.dll.config"; DestDir: "{app}"; Flags: ignoreve
 Source: "bin\Release\TypicalReply.vsto"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\Release\TypicalReply.pdb"; DestDir: "{app}"; Flags: ignoreversion
 Source: "Resources\tr.ico"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{src}\DefaultConfig\TypicalReplyConfig.json"; DestDir: "{userappdata}\TypicalReply"; Flags: onlyifdoesntexist external skipifsourcedoesntexist
+
+[Dirs]
+Name: "{userappdata}\TypicalReply"

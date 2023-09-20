@@ -65,6 +65,11 @@ policy配下のadmx、admlファイルをグループポリシーファイルを
 * ButtonConfigListはグループポリシーの内容と設定ファイルの内容がマージされます
   * IDに重複がある場合、設定ファイルのものが使用されます
 
+## インストーラーでのデフォルト設定ファイルのインストール
+
+セットアップの存在するフォルダに `DefaultConfig\TypicalReplyConfig.json` を配置した状態でセットアップを実行することで、
+セットアップ実行時に自動で`%APPDATA%\TypicalReply\TypicalReplyConfig.json` にファイルが配置されます。
+
 ## 設定項目
 
 設定は以下のようなJSON形式で指定します。

@@ -1,0 +1,42 @@
+{
+    "ConfigList": [
+        {
+            "Culture": "ja-JP",
+            "GalleryLabel": "定型返信",
+            "ButtonConfigList": [
+                {
+                    "Id": "Like",
+                    "Label": "いいね！",
+                    "SubjectPrefix": "[[いいね！]]",
+                    "Body": "いいね！",
+                    "Recipients": [
+                        "all"
+                    ],
+                    "QuoteType": true,
+                    "AllowedDomains": [
+                        "*"
+                    ]
+                }
+            ]
+        },
+        {
+            "Culture": "en",
+            "GalleryLabel": "Typical Reply",
+            "ButtonConfigList": [
+                {
+                    "Id": "Like",
+                    "Label": "Like!",
+                    "SubjectPrefix": "[[Like!]]",
+                    "Body": "Like!",
+                    "Recipients": [
+                        "all"
+                    ],
+                    "QuoteType": true,
+                    "AllowedDomains": [
+                        "*"
+                    ]
+                }
+            ]
+        }
+    ]
+}
