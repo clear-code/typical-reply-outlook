@@ -15,6 +15,7 @@ OutputBaseFilename=TypicalReplySetup-{#SetupSetting("AppVersion")}
 VersionInfoDescription=TypicalReplySetup
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
+LicenseFile=LICENSE.txt
 
 [Registry]
 Root: HKLM; Subkey: "Software\Microsoft\Office\Outlook\Addins\TypicalReply"; Flags: uninsdeletekey
@@ -45,6 +46,8 @@ Source: "bin\Release\TypicalReply.dll.config"; DestDir: "{app}"; Flags: ignoreve
 Source: "bin\Release\TypicalReply.vsto"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\Release\TypicalReply.pdb"; DestDir: "{app}"; Flags: ignoreversion
 Source: "Resources\tr.ico"; DestDir: "{app}"; Flags: ignoreversion
+Source: "Licenses\*"; DestDir: "{app}\Licenses"; Flags: ignoreversion recursesubdirs
+Source: "LICENSE.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{src}\DefaultConfig\TypicalReplyConfig.json"; DestDir: "{userappdata}\TypicalReply"; Flags: onlyifdoesntexist external skipifsourcedoesntexist
 
 [Dirs]
