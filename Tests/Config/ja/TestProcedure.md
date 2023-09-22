@@ -65,7 +65,7 @@ ConfigForTest/TypicalReplyConfig.jsonが各ボタンのテスト用の設定で�
   * 指定しない場合、全てのドメインが許可されること
   * `["*"]`を指定した場合、全てのドメインが許可されること
   * `["test.co.jp", "test.co.jp"]`を指定した場合
-    *`test.co.jp`と`test2.co.jp`を含まないドメインがあった場合、返信されないこと
+    * `test.co.jp`と`test2.co.jp`を含まないドメインがあった場合、返信されないこと
       * ※返信のための新規メールも何も作成されないこと
     * `test.co.jp`と`test.co.jp`ドメインのみだった場合、返信されること
 * Button.ForwardType
