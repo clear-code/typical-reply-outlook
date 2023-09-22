@@ -1,0 +1,48 @@
+{
+    "ConfigList": [
+        {
+            "Culture": "ja",
+            "GalleryLabel": "テストギャラリー",
+            "ButtonConfigList": [
+                {
+                    "id": "test",
+                    "label": "テストボタン",
+                    "subjectPrefix": "[[日本語]]"
+                }
+            ]
+        },
+        {
+            "Culture": "en",
+            "GalleryLabel": "Test Gallery",
+            "ButtonConfigList": [
+                {
+                    "id": "test",
+                    "label": "Test Button",
+                    "subjectPrefix": "[[English]]"
+                }
+            ]
+        },
+        {
+            "Culture": "zh-CN",
+            "GalleryLabel": "测试画廊",
+            "ButtonConfigList": [
+                {
+                    "id": "test",
+                    "label": "测试按钮",
+                    "subjectPrefix": "[[简体字]]"
+                }
+            ]
+        },
+        {
+            "Culture": "zh-TW",
+            "GalleryLabel": "測試畫廊",
+            "ButtonConfigList": [
+                {
+                    "id": "test",
+                    "label": "測試按鈕",
+                    "subjectPrefix": "[[繁體中文]]"
+                }
+            ]
+        }
+    ]
+}
