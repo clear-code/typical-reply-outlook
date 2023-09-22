@@ -37,7 +37,9 @@ Root: HKCU; Subkey: "Software\Microsoft\Office\13.0\Outlook\Resiliency\DoNotDisa
 
 [Languages]
 Name: en; MessagesFile: "compiler:Default.isl"
-Name: jp; MessagesFile: "compiler:Languages\Japanese.isl"
+Name: ja; MessagesFile: "compiler:Languages\Japanese.isl"
+Name: zh_TW; MessagesFile: "compiler:Languages\ChineseTraditional.isl"
+Name: zh_CN; MessagesFile: "compiler:Languages\ChineseSimplified.isl"
 
 [Files]
 Source: "bin\Release\*.dll"; DestDir: "{app}"; Flags: ignoreversion
