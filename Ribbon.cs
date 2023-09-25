@@ -58,33 +58,50 @@ namespace TypicalReply
                 xmlDocument.LoadXml(ribbonTemplate);
                 string namespaceURI = xmlDocument.ChildNodes[1].NamespaceURI;
                 RuntimeParams global = RuntimeParams.GetInstance();
-                XmlNode galleryInTabMailElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.TabMailGroupGalleryId}']");
-                XmlNode galleryInTabReadMessageElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.TabReadMessageGroupGalleryId}']");
+                XmlNode galleryInTabMailElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.TabMailGroupId}']");
+                XmlNode galleryInTabReadMessageElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.TabReadMessageGroupId}']");
                 XmlNode contextDropDownElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.ContextMenuGalleryId}']");
 
                 var targetParams = new List<(XmlNode, string)>
                 {
-                    (galleryInTabMailElem, Const.Button.TabMailGroupGalleryId),
-                    (galleryInTabReadMessageElem, Const.Button.TabReadMessageGroupGalleryId),
+                    (galleryInTabMailElem, Const.Button.TabMailGroupId),
+                    (galleryInTabReadMessageElem, Const.Button.TabReadMessageGroupId),
                     (contextDropDownElem, Const.Button.ContextMenuGalleryId),
                 };
 
-                foreach (var templateConfig in global.Config.ButtonConfigList)
+                foreach (var buttonConfig in global.Config.ButtonConfigList)
                 {
-                    if (string.IsNullOrEmpty(templateConfig.Id))
+                    if (string.IsNullOrEmpty(buttonConfig.Id))
                     {
                         continue;
                     }
-                    if (string.IsNullOrEmpty(templateConfig.Label))
+                    if (string.IsNullOrEmpty(buttonConfig.Label))
                     {
                         continue;
                     }
-                    foreach (var (node, postfix) in targetParams)
+                    foreach (var (node, suffix) in targetParams)
                     {
                         XmlElement button = xmlDocument.CreateElement("button", namespaceURI);
-                        button.SetAttribute("id", $"{templateConfig.Id}{postfix}");
-                        button.SetAttribute("label", templateConfig.Label);
+                        button.SetAttribute("id", $"{buttonConfig.Id}{suffix}");
+                        button.SetAttribute("label", buttonConfig.Label);
                         button.SetAttribute("onAction", nameof(OnClickButton));
+                        if (suffix != Const.Button.ContextMenuGalleryId)
+                        {
+                            //We cannot specify button size in the context menu.
+                            switch (buttonConfig.Size)
+                            {
+                                case ButtonSize.Large:
+                                    button.SetAttribute("size", "large");
+                                    break;
+                                case ButtonSize.Normal:
+                                    button.SetAttribute("size", "normal");
+                                    break;
+                            }
+                        }
+                        if (!string.IsNullOrEmpty(buttonConfig.Image))
+                        {
+                            button.SetAttribute("image", buttonConfig.Image);
+                        }
                         //if (!string.IsNullOrEmpty(templateConfig.AccessKey))
                         //{
                         //    button.SetAttribute("keytip", templateConfig.AccessKey);
@@ -245,9 +262,9 @@ namespace TypicalReply
                 Config.
                 ButtonConfigList?.
                 FirstOrDefault(_ =>
-                    id == $"{_.Id}{Const.Button.TabMailGroupGalleryId}" ||
+                    id == $"{_.Id}{Const.Button.TabMailGroupId}" ||
                     id == $"{_.Id}{Const.Button.ContextMenuGalleryId}" ||
-                    id == $"{_.Id}{Const.Button.TabReadMessageGroupGalleryId}");
+                    id == $"{_.Id}{Const.Button.TabReadMessageGroupId}");
             if (config is null)
             {
                 Logger.Log("Failed to get the target button config");
@@ -255,7 +272,7 @@ namespace TypicalReply
             }
 
             MailItem selectedMailItem;
-            if (control.Id == $"{config.Id}{Const.Button.TabReadMessageGroupGalleryId}")
+            if (control.Id == $"{config.Id}{Const.Button.TabReadMessageGroupId}")
             {
                 selectedMailItem = GetActiveInspectorMailItem();
             }
@@ -276,7 +293,7 @@ namespace TypicalReply
         public string GetLabel(IRibbonControl control)
         {
             Config.Config typicalReplyConfig = RuntimeParams.GetInstance().Config;
-            return typicalReplyConfig.GalleryLabel;
+            return typicalReplyConfig.GroupLabel;
         }
 
         #region ヘルパー

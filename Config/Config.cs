@@ -10,7 +10,7 @@ namespace TypicalReply.Config
     public class Config
     {
         public string Culture { get; set; }
-        public string GalleryLabel { get; set; } = "Typical Reply";
+        public string GroupLabel { get; set; } = "Typical Reply";
         public List<ButtonConfig> ButtonConfigList { get; set; }
 
         /// <summary>
@@ -25,9 +25,9 @@ namespace TypicalReply.Config
             {
                 return this;
             }
-            if (!string.IsNullOrEmpty(other.GalleryLabel))
+            if (!string.IsNullOrEmpty(other.GroupLabel))
             {
-                this.GalleryLabel = other.GalleryLabel;
+                this.GroupLabel = other.GroupLabel;
             }
             if (this.ButtonConfigList is null)
             {

@@ -30,6 +30,13 @@ namespace TypicalReply.Config
         SpecifiedByUser = 2
     }
 
+    public enum ButtonSize
+    {
+        Unknown = 0,
+        Normal = 1,
+        Large = 2,
+    }
+
     /// <summary>
     /// Config for button
     /// </summary>
@@ -96,5 +103,9 @@ namespace TypicalReply.Config
         }
 
         public ForwardType ForwardType { get; set; }
+
+        public ButtonSize Size { get; set; }
+
+        public string Image => "logo.png";
     }
 }
