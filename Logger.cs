@@ -11,7 +11,16 @@ namespace TypicalReply
 {
     internal static class Logger
     {
-        private static StreamWriter LogStream { get; } = new StreamWriter(new FileStream(Path.Combine(StandardPath.GetUserDir(), "TypicalReply.log"), FileMode.Create));
+        private static int MaxGeneration = 10;
+
+        private static long MaxLogSize = 10 * 1024 * 1024;
+
+        private static string LogFileNameBase = "TypicalReply";
+
+        private static string FilePath = Path.Combine(StandardPath.GetUserDir(), "TypicalReply.log");
+        private static StreamWriter LogStream { get; set; }
+
+        private static object LockObject = new object();
 
         internal static void Log(string message) => NoException(() => LogImpl(message));
         internal static void Log(Exception e) => NoException(() => LogImpl(e));
@@ -23,8 +32,9 @@ namespace TypicalReply
 
         private static void LogImpl(string message)
         {
-            lock (LogStream)
+            lock (LockObject)
             {
+                RotateIfNeed();
                 LogStream.WriteLine($"{GetTimestamp()} : {message}");
                 LogStream.Flush();
             }
@@ -38,6 +48,65 @@ namespace TypicalReply
         private static string GetTimestamp()
         {
             return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+
+        private static void RotateIfNeed()
+        {
+            if (!File.Exists(FilePath))
+            {
+                LogStream?.Close();
+                LogStream = null;
+            }
+
+            if (LogStream is null)
+            {
+                LogStream = new StreamWriter(new FileStream(FilePath, FileMode.OpenOrCreate));
+            }
+
+            var fi = new FileInfo(FilePath);
+            if(fi.Length > MaxLogSize)
+            {
+                Rotate();
+            }
+        }
+
+        private static void Rotate()
+        {
+            lock (LockObject)
+            {
+                LogStream?.Close();
+
+                string previousFileName;
+                string previousFilePath;
+                string rotatedFileName;
+                string rotatedFilePath;
+                string userDir = StandardPath.GetUserDir();
+                for (int i = MaxGeneration - 1; i >= 0; i--)
+                {
+                    if (i > 0)
+                    {
+                        previousFileName = $"{LogFileNameBase}_{i}.log";
+                    }
+                    else
+                    {
+                        previousFileName = $"{LogFileNameBase}.log";
+                    }
+
+                    previousFilePath = Path.Combine(userDir, previousFileName);
+
+                    if (!File.Exists(previousFilePath))
+                    {
+                        continue;
+                    }
+                    rotatedFileName = $"{LogFileNameBase}_{ i + 1 }.log";
+                    rotatedFilePath = Path.Combine(userDir, rotatedFileName);
+
+                    File.Copy(previousFilePath, rotatedFilePath, true);
+                    File.Delete(previousFilePath);
+                }
+
+                LogStream = new StreamWriter(new FileStream(FilePath, FileMode.Create));
+            }
         }
     }
 }
