@@ -6,7 +6,7 @@
     <stringTable>
       <string id="Default">默认值</string>
       <string id="TypicalReplyConfig">Typical Reply设置</string>
-      <string id="TypicalReplyConfig_Explain">将Typical Reply设置指定为JSON格式。</string>
+      <string id="TypicalReplyConfig_Explain">以JSON格式指定TypicalReply的设置。</string>
     </stringTable>
     <presentationTable>
       <presentation id="TypicalReplyConfig">
