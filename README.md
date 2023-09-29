@@ -19,9 +19,9 @@
 このとき、以下のいずれかの手順ですぐに定型文で返信することができます。
 
 * リボンの「Typical Reply」ボタンから、「いいね！」を選択
-  !["リボン"](./Documents/Images/Ribbon.PNG "リボン")
+  !["リボン"](./Documents/ja/Images/Ribbon.PNG "リボン")
 * メールを右クリックして表示されるコンテキストメニューの「Typical Reply」ギャラリーから、「いいね！」を選択
-  !["コンテキストメニュー"](./Documents/Images/ContextMenu.PNG "コンテキストメニュー")
+  !["コンテキストメニュー"](./Documents/ja/Images/ContextMenu.PNG "コンテキストメニュー")
 
 ```
 Subject:
@@ -305,4 +305,4 @@ ButtonConfigListにButtonConfigを追加します。
 
 これで、定型返信のボタンの中に、「最高！」ボタンが追加されます。
 
-!["「最高！」ボタン"](./Documents/Images/Awesome.PNG "「最高！」ボタン")
+!["「最高！」ボタン"](./Documents/ja/Images/Awesome.PNG "「最高！」ボタン")

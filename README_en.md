@@ -169,7 +169,7 @@ ButtonConfig: Typical reply button configurations. Configure reply content and r
 | ForwardType    | String         | no       | Do not attach         | Whether to attach the original email. <br>`attachment`: attach                                                                                                                                                       | `attachment`                              |
 | Size           | String         | no       | "normal"              | Size of buttons displayed in the group.<br>`normal`: Normal button<br>`large`: Large button                                                                                                                          | `"attachment"`                            |
 
-## 新しい設定追加の例
+## Example of adding new settings
 
 Think of a way to add a button that says "Awesome!"
 
