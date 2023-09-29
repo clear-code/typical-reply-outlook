@@ -19,9 +19,9 @@ Body:
 Then you can send a typical reply quickly by following one of the steps below. 
 
 * Click the "Like!" button in the ribbon.
-  !["Ribbon"](./Documents/Images/RibbonGallery.PNG "Ribbon")
+  !["Ribbon"](./Documents/en/Images/Ribbon.PNG "Ribbon")
 * Click the "Like!" buton from the context menu on a mail item.
-  !["Context Menu"](./Documents/Images/ContextMenuGallery.PNG "Context Menu")
+  !["Context Menu"](./Documents/en/Images/ContextMenu.PNG "Context Menu")
 
 ```
 Subject:
@@ -61,7 +61,7 @@ We need specify the configuration with JSON described below to this configuratio
 If the group policy configuration and configuration file configuration have different priorities, the configuration with higher priority is used.
 If the priorities are the same, the configurations are merged with the group policy content and the configuration file content.
 
-* GalleryLabel is used from the configuration file if it is specified.
+* GroupLabel is used from the configuration file if it is specified.
 * ButtonConfigList is merged the contents of group policy and configuration file
   * If there is a duplicate ID, the one in the configuration file will be used
 
@@ -108,7 +108,7 @@ Specify the settings in JSON format as below.
         },
         {
             "Culture": "en-US",
-            "GalleryLabel": "Typical Reply",
+            "GroupLabel": "Typical Reply",
             "ButtonConfigList": [
                 {
                     "Id": "Like",
@@ -182,7 +182,7 @@ Suppose your current settings are as follows:
     "ConfigList": [
         {
             "Culture": "en-US",
-            "GalleryLabel": "Typical Reply",
+            "GroupLabel": "Typical Reply",
             "ButtonConfigList": [
                 {
                     "Id": "Like",
@@ -274,8 +274,8 @@ Add the config created above to ButtonConfigList.
 {
     "ConfigList": [
         {
-            "Culture": "ja-JP",
-            "GalleryLabel": "定型返信",
+            "Culture": "en-US",
+            "GroupLabel": "Typical Reply",
             "ButtonConfigList": [
                 {
                     "Id": "Like",
@@ -305,4 +305,4 @@ Add the config created above to ButtonConfigList.
 
 The "Awesome!" button will now be added to the typical reply buttons.
 
-!["Awesome buutton"](./Documents/Images/Awesome.PNG "Awesome button")
+!["Awesome buutton"](./Documents/en/Images/Awesome.PNG "Awesome button")
