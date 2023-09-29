@@ -26,7 +26,7 @@ ConfigForTest/TypicalReplyConfig.jsonが各ボタンのテスト用の設定で�
     * 現在のカルチャに一致する設定がない場合、先頭の設定が使用されること
   * 指定しない場合
     * 他に現在のカルチャに一致する設定がない場合、先頭の設定が使用されること
-* Config.GalleryLabel
+* Config.GroupLabel
   * 指定しない場合、 "Typical Reply"になること
   * 指定した場合、指定した値になること
 * Config.ButtonConfigList
@@ -98,7 +98,7 @@ gpedit.mscからグループポリシーエディターを開き、「管理用�
 
 #### テスト
 
-* Config.GalleryLabel
+* Config.GroupLabel
   * 設定ファイルの値を変更すると、設定ファイルの内容が優先されること
 * ButtonConfig
   * 設定ファイルの設定とレジストリの設定で、IDが同じものについて、設定ファイルのラベルを変更すると、設定ファイルの内容で上書きされること
@@ -109,7 +109,7 @@ gpedit.mscからグループポリシーエディターを開き、「管理用�
 #### 準備
 
 「レジストリと設定ファイルの設定内容のマージ」テストでテスト時に変更した、設定ファイルとレジストリ設定を使用する。
-（つまり、Config.GalleryLabelとConfig.ButtonConfigListに差異がある状態であること。）
+（つまり、Config.GroupLabelとConfig.ButtonConfigListに差異がある状態であること。）
 
 #### テスト
 

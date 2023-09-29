@@ -2,7 +2,7 @@
     "ConfigList": [
         {
             "Culture": "ja-JP",
-            "GalleryLabel": "定型返信",
+            "GroupLabel": "定型返信",
             "ButtonConfigList": [
                 {
                     "Id": "Like",
@@ -21,7 +21,7 @@
         },
         {
             "Culture": "en",
-            "GalleryLabel": "Typical Reply",
+            "GroupLabel": "Typical Reply",
             "ButtonConfigList": [
                 {
                     "Id": "Like",

@@ -2,7 +2,7 @@
     "ConfigList": [
         {
             "Culture": "ja",
-            "GalleryLabel": "テストボタン",
+            "GroupLabel": "テストボタン",
             "ButtonConfigList": [
                 {
                     "label": "idなし。表示されない"

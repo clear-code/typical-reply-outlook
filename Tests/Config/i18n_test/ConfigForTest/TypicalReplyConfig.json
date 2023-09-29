@@ -2,7 +2,7 @@
     "ConfigList": [
         {
             "Culture": "ja",
-            "GalleryLabel": "テストギャラリー",
+            "GroupLabel": "テストギャラリー",
             "ButtonConfigList": [
                 {
                     "id": "test",
@@ -13,7 +13,7 @@
         },
         {
             "Culture": "en",
-            "GalleryLabel": "Test Gallery",
+            "GroupLabel": "Test Gallery",
             "ButtonConfigList": [
                 {
                     "id": "test",
@@ -24,7 +24,7 @@
         },
         {
             "Culture": "zh-CN",
-            "GalleryLabel": "测试画廊",
+            "GroupLabel": "测试画廊",
             "ButtonConfigList": [
                 {
                     "id": "test",
@@ -35,7 +35,7 @@
         },
         {
             "Culture": "zh-TW",
-            "GalleryLabel": "測試畫廊",
+            "GroupLabel": "測試畫廊",
             "ButtonConfigList": [
                 {
                     "id": "test",
