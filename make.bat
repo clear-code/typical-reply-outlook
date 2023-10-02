@@ -13,8 +13,11 @@ iscc.exe /Odest TypicalReplyOutlook.iss
 @REM ==================================
 powershell -C ^
 "$version=(Get-ItemProperty bin\release\TypicalReply.dll).VersionInfo.FileVersion; ^
+ Remove-Item -Recurse dest\TypicalReplyOutlook-${version}-with-Default-Config; ^
+ mkdir dest\TypicalReplyOutlook-${version}-with-Default-Config; ^
+ Copy-Item -Recurse -Path dest\TypicalReplySetup-${version}.exe, DefaultConfig dest\TypicalReplyOutlook-${version}-with-Default-Config;^
  Compress-Archive ^
-   -Path dest\TypicalReplySetup-${version}.exe, DefaultConfig ^
+   -Path dest\TypicalReplyOutlook-${version}-with-Default-Config ^
    -DestinationPath dest\TypicalReplyOutlook-${version}-with-Default-Config.zip ^
    -Force"
 
