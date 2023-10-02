@@ -1,7 +1,7 @@
 @REM ==================
 @REM Compile C# sources
 @REM ==================
-msbuild /p:Configuration=Release
+msbuild /p:Configuration=Release /t:Rebuild
 
 @REM ==================
 @REM Build an installer
