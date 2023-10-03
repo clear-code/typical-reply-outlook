@@ -58,15 +58,15 @@ namespace TypicalReply
                 xmlDocument.LoadXml(ribbonTemplate);
                 string namespaceURI = xmlDocument.ChildNodes[1].NamespaceURI;
                 RuntimeParams global = RuntimeParams.GetInstance();
-                XmlNode galleryInTabMailElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.TabMailGroupId}']");
-                XmlNode galleryInTabReadMessageElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.TabReadMessageGroupId}']");
-                XmlNode contextDropDownElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.ContextMenuGalleryId}']");
+                XmlNode groupInTabMailElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.TabMailGroupId}']");
+                XmlNode groupInTabReadMessageElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.TabReadMessageGroupId}']");
+                XmlNode contextGalleryElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.ContextMenuGalleryId}']");
 
                 var insertMsoTargetParams = new List<(XmlNode, string)>
                 {
-                    (galleryInTabMailElem, global.Config.TabMailInsertAfterMso),
-                    (galleryInTabReadMessageElem, global.Config.TabReadInsertAfterMso),
-                    (contextDropDownElem, global.Config.ContextMenuInsertAfterMso),
+                    (groupInTabMailElem, global.Config.TabMailInsertAfterMso),
+                    (groupInTabReadMessageElem, global.Config.TabReadInsertAfterMso),
+                    (contextGalleryElem, global.Config.ContextMenuInsertAfterMso),
                 };
 
                 foreach (var (node, insertAfterMso) in insertMsoTargetParams)
@@ -84,9 +84,9 @@ namespace TypicalReply
 
                 var targetParams = new List<(XmlNode, string)>
                 {
-                    (galleryInTabMailElem, Const.Button.TabMailGroupId),
-                    (galleryInTabReadMessageElem, Const.Button.TabReadMessageGroupId),
-                    (contextDropDownElem, Const.Button.ContextMenuGalleryId),
+                    (groupInTabMailElem, Const.Button.TabMailGroupId),
+                    (groupInTabReadMessageElem, Const.Button.TabReadMessageGroupId),
+                    (contextGalleryElem, Const.Button.ContextMenuGalleryId),
                 };
 
                 foreach (var buttonConfig in global.Config.ButtonConfigList)
