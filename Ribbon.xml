@@ -3,18 +3,18 @@
 	<ribbon>
 		<tabs>
 			<tab idMso="TabMail">
-				<group id="TypicalReplyTabMailGroup" getLabel="GetLabel" insertAfterMso="GroupMailRespond">
+				<group id="TypicalReplyTabMailGroup" getLabel="GetLabel">
 				</group>
 			</tab>
 			<tab idMso="TabReadMessage">
-				<group id="TypicalReplyTabReadMessageGroup" getLabel="GetLabel" insertAfterMso="GroupRespond">
+				<group id="TypicalReplyTabReadMessageGroup" getLabel="GetLabel">
 				</group>
 			</tab>
 		</tabs>
 	</ribbon>
 	<contextMenus>
 		<contextMenu idMso="ContextMenuMailItem">
-			<gallery id="TypicalReplyContextMenuGallery" getLabel="GetLabel" insertAfterMso="Forward" image="logo.png" showImage="1">
+			<gallery id="TypicalReplyContextMenuGallery" getLabel="GetLabel" image="logo.png" showImage="1">
 			</gallery>
 		</contextMenu>
 	</contextMenus>

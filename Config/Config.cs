@@ -11,6 +11,10 @@ namespace TypicalReply.Config
     {
         public string Culture { get; set; }
         public string GroupLabel { get; set; } = "Typical Reply";
+        public string TabMailInsertAfterMso { get; set; } = "GroupMailRespond";
+        public string TabReadInsertAfterMso { get; set; } = "GroupRespond";
+        public string ContextMenuInsertAfterMso { get; set; } = "Forward";
+
         public List<ButtonConfig> ButtonConfigList { get; set; }
 
         /// <summary>

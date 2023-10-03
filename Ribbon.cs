@@ -62,6 +62,26 @@ namespace TypicalReply
                 XmlNode galleryInTabReadMessageElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.TabReadMessageGroupId}']");
                 XmlNode contextDropDownElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.ContextMenuGalleryId}']");
 
+                var insertMsoTargetParams = new List<(XmlNode, string)>
+                {
+                    (galleryInTabMailElem, global.Config.TabMailInsertAfterMso),
+                    (galleryInTabReadMessageElem, global.Config.TabReadInsertAfterMso),
+                    (contextDropDownElem, global.Config.ContextMenuInsertAfterMso),
+                };
+
+                foreach (var (node, insertAfterMso) in insertMsoTargetParams)
+                {
+                    var nodeAsElement = node as XmlElement;
+                    if (node == null)
+                    {
+                        continue;
+                    }
+                    if (!string.IsNullOrEmpty(insertAfterMso))
+                    {
+                        nodeAsElement.SetAttribute("insertAfterMso", insertAfterMso);
+                    }
+                }
+
                 var targetParams = new List<(XmlNode, string)>
                 {
                     (galleryInTabMailElem, Const.Button.TabMailGroupId),
