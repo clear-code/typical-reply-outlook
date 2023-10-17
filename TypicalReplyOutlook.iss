@@ -25,11 +25,11 @@ Root: HKLM; Subkey: "Software\Microsoft\Office\Outlook\Addins\TypicalReply"; Val
 Root: HKLM; Subkey: "Software\Microsoft\Office\Outlook\Addins\TypicalReply"; ValueType: dword; ValueName: "LoadBehavior"; ValueData: 3
 
 ; Install for 32bit Office as well
-Root: HKLM32; Subkey: "Software\Microsoft\Office\Outlook\Addins\FlexConfirmMail"; Flags: uninsdeletekey
-Root: HKLM32; Subkey: "Software\Microsoft\Office\Outlook\Addins\FlexConfirmMail"; ValueType: string; ValueName: "Description"; ValueData: "Addon for quick replying or transfering with template"
-Root: HKLM32; Subkey: "Software\Microsoft\Office\Outlook\Addins\FlexConfirmMail"; ValueType: string; ValueName: "FriendlyName"; ValueData: "TypicalReply"
-Root: HKLM32; Subkey: "Software\Microsoft\Office\Outlook\Addins\FlexConfirmMail"; ValueType: string; ValueName: "Manifest"; ValueData: "file:///{app}\TypicalReply.vsto|vstolocal"
-Root: HKLM32; Subkey: "Software\Microsoft\Office\Outlook\Addins\FlexConfirmMail"; ValueType: dword; ValueName: "LoadBehavior"; ValueData: 3
+Root: HKLM32; Subkey: "Software\Microsoft\Office\Outlook\Addins\TypicalReply"; Flags: uninsdeletekey
+Root: HKLM32; Subkey: "Software\Microsoft\Office\Outlook\Addins\TypicalReply"; ValueType: string; ValueName: "Description"; ValueData: "Addon for quick replying or transfering with template"
+Root: HKLM32; Subkey: "Software\Microsoft\Office\Outlook\Addins\TypicalReply"; ValueType: string; ValueName: "FriendlyName"; ValueData: "TypicalReply"
+Root: HKLM32; Subkey: "Software\Microsoft\Office\Outlook\Addins\TypicalReply"; ValueType: string; ValueName: "Manifest"; ValueData: "file:///{app}\TypicalReply.vsto|vstolocal"
+Root: HKLM32; Subkey: "Software\Microsoft\Office\Outlook\Addins\TypicalReply"; ValueType: dword; ValueName: "LoadBehavior"; ValueData: 3
 
 ; Prevent Outlook from disabling .NET addon
 Root: HKCU; Subkey: "Software\Microsoft\Office\16.0\Outlook\Resiliency\DoNotDisableAddinList"; ValueType: dword; ValueName: "TypicalReply"; ValueData: 1
