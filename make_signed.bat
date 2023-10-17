@@ -19,7 +19,9 @@ iscc.exe /Odest TypicalReplyOutlook.iss
 @REM ==================
 @REM Sign the installer
 @REM ==================
-signtool sign /t %timestamp% /fd SHA256 /sha1 %cert% TypicalReplyOutlook*.exe
+@REM wait the build process releases the file
+timeout 10 /nobreak
+signtool sign /t %timestamp% /fd SHA256 /sha1 %cert% dest\TypicalReplySetup-*.exe
 
 @REM ==================================
 @REM Create package with default config
