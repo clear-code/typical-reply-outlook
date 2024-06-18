@@ -50,25 +50,36 @@ Move admx and adml files under the policy folder into following one of the paths
 Open Group Policy Editor and open Administrative Templates -> TypicalReply -> Defaults -> TypicalReply Settings.
 Enable this configuration and enter the JSON configuration described below in the text area.
 
-## Configuration via configuration file
+## Configuration via default configuration file
 
-The configuration file is located in the following path.
+The default configuration file is located in the following path.
+
+`C:\Program Files\TypicalReply\TypicalReplyConfig.json`
+
+We need specify the configuration with JSON described below to this configuration file.
+
+## Configuration via user configuration file
+
+The user configuration file is located in the following path.
 
 `%APPDATA%\TypicalReply\TypicalReplyConfig.json`
 
 We need specify the configuration with JSON described below to this configuration file.
 
-If the group policy configuration and configuration file configuration have different priorities, the configuration with higher priority is used.
-If the priorities are the same, the configurations are merged with the group policy content and the configuration file content.
+## Priority if there are multiple configurations
 
-* GroupLabel is used from the configuration file if it is specified.
-* ButtonConfigList is merged the contents of group policy and configuration file
-  * If there is a duplicate ID, the one in the configuration file will be used
+If the group policy configuration, the default configuration file configuration and the user configuration file configuration have different priorities,
+the configuration with higher priority is used. If the priorities are the same, the configurations are merged in the order the group policy, the default configuration and the user configuration file.
+
+* GroupLabel is used from the last configuration if it is specified.
+* ButtonConfigList is merged the contents of eatch configurations.
+  * If ID is duplicated, the one of the last configuration will be used.
+  * If ID is unique, the ButtonConfig of the ID is added to ButtonConfigList.
 
 ## Installing default configuration files with the installer
 
 By running the setup with `DefaultConfig\TypicalReplyConfig.json` placed in the folder where the setup exists, 
-the file will be automatically placed in `%APPDATA%\TypicalReply\TypicalReplyConfig.json`.
+the file will be automatically placed in `C:\Program Files\TypicalReply\TypicalReplyConfig.json`.
 
 ## Configuration items
 
