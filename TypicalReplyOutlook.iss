@@ -50,7 +50,6 @@ Source: "bin\Release\TypicalReply.pdb"; DestDir: "{app}"; Flags: ignoreversion
 Source: "Resources\tr.ico"; DestDir: "{app}"; Flags: ignoreversion
 Source: "Licenses\*"; DestDir: "{app}\Licenses"; Flags: ignoreversion recursesubdirs
 Source: "LICENSE.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{src}\DefaultConfig\TypicalReplyConfig.json"; DestDir: "{userappdata}\TypicalReply"; Flags: onlyifdoesntexist external skipifsourcedoesntexist
-
+Source: "{src}\DefaultConfig\TypicalReplyConfig.json"; DestDir: "{app}\DefaultConfig"; Flags:external skipifsourcedoesntexist
 [Dirs]
 Name: "{userappdata}\TypicalReply"

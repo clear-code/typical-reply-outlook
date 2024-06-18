@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TypicalReply.Config
 {
@@ -13,6 +9,11 @@ namespace TypicalReply.Config
         {
             string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             return Path.Combine(appData, "TypicalReply");
+        }
+
+        public static string GetDefaultConfigDir()
+        {
+            return Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "DefaultConfig");
         }
     }
 }

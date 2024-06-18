@@ -1,28 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Globalization;
+using System.IO;
 
 namespace TypicalReply.Config
 {
     internal class ConfigLoader
     {
-        private string FilePath { get; }
+        private string UserFilePath { get; }
+        private string DefaultFilePath { get; }
         private string RegistryPath { get; }
 
-        internal ConfigLoader(string filePath, string registryPath)
+        internal ConfigLoader()
         {
-            FilePath = filePath;
-            RegistryPath = registryPath;
+            UserFilePath = Path.Combine(StandardPath.GetUserDir(), Const.Config.FileName);
+            DefaultFilePath = Path.Combine(StandardPath.GetDefaultConfigDir(), Const.Config.FileName);
+            Logger.Log($"Default config file path: {DefaultFilePath}");
+            RegistryPath = Const.RegistryPath.DefaultPolicy;
         }
 
-        private TypicalReplyConfig LoadFromFile()
+        private TypicalReplyConfig LoadFromFile(string filePath)
         {
             try
             {
-                return ConfigSerializer<TypicalReplyConfig>.LoadFromFile(FilePath);
+                return ConfigSerializer<TypicalReplyConfig>.LoadFromFile(filePath);
             }
             catch(Exception ex)
             {
@@ -75,48 +77,69 @@ namespace TypicalReply.Config
             return config;
         }
 
+        private (Config config, int priority) DetemineConfigWithPriority((Config config, int priority) left, (Config config, int priority) right)
+        {
+            if (left.config == null)
+            {
+                return right;
+            }
+            else if (right.config == null)
+            {
+                return left;   
+            }
+            else if (left.priority == right.priority)
+            {
+                return (left.config.Merge(right.config), left.priority);
+            }
+            else if (left.priority > right.priority)
+            {
+                return left;
+            }
+            else
+            {
+                return right;
+            }
+        }
+
         internal Config Load()
         {
             TypicalReplyConfig registryTypicalReplyConfig = LoadFromRegistry();
-            TypicalReplyConfig fileTypicalReplyConfig = LoadFromFile();
+            TypicalReplyConfig defaultFileTypicalReplyConfig = LoadFromFile(DefaultFilePath);
+            TypicalReplyConfig userFileTypicalReplyConfig = LoadFromFile(UserFilePath);
 
             int registryPriority = registryTypicalReplyConfig?.Priority ?? -1;
-            int filePriority = fileTypicalReplyConfig?.Priority ?? -1;
+            int defaultFilePriority = defaultFileTypicalReplyConfig?.Priority ?? -1;
+            int userFilePriority = userFileTypicalReplyConfig?.Priority ?? -1;
 
-            if (registryTypicalReplyConfig is null && fileTypicalReplyConfig is null)
+            if (registryTypicalReplyConfig is null && userFileTypicalReplyConfig is null && defaultFileTypicalReplyConfig is null)
             {
                 throw new Exception("No TypicalReplyConfig found");
             }
+
             var registryConfig = GetConfigForCurrentUICulture(registryTypicalReplyConfig);
-            var fileConfig = GetConfigForCurrentUICulture(fileTypicalReplyConfig);
-            if (registryConfig is null && fileConfig is null)
+            var defaultFileConfig = GetConfigForCurrentUICulture(defaultFileTypicalReplyConfig);
+            var userFileConfig = GetConfigForCurrentUICulture(userFileTypicalReplyConfig);
+
+            if (registryConfig is null && userFileConfig is null && defaultFileConfig is null)
             {
                 throw new Exception("No Config found");
             }
             if (registryConfig is null)
             {
                 Logger.Log("Registy config not found");
-                Logger.Log("Config file found");
-                return fileConfig;
             }
-            if (fileConfig is null)
+            if (defaultFileConfig is null)
             {
-                Logger.Log("Config file not found");
-                Logger.Log("Registy config found");
-                return registryConfig;
+                Logger.Log("Default config file not found");
             }
-            if (registryPriority == filePriority)
+            if (userFileConfig is null)
             {
-                return registryConfig.Merge(fileConfig);
+                Logger.Log("User Config file not found");
             }
-            else if(registryPriority > filePriority)
-            {
-                return registryConfig;
-            }
-            else
-            {
-                return fileConfig;
-            }
+
+            (Config config, int priority) configAndPriority = DetemineConfigWithPriority((registryConfig, registryPriority), (defaultFileConfig, defaultFilePriority));
+            configAndPriority = DetemineConfigWithPriority(configAndPriority, (userFileConfig, userFilePriority));
+            return configAndPriority.config;
         }
     }
 }

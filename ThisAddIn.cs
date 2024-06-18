@@ -5,6 +5,8 @@ using System.Text;
 using System.Xml.Linq;
 using Outlook = Microsoft.Office.Interop.Outlook;
 using Office = Microsoft.Office.Core;
+using System.IO;
+using TypicalReply.Config;
 
 namespace TypicalReply
 {
@@ -12,6 +14,11 @@ namespace TypicalReply
     {
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
+            string userDir = StandardPath.GetUserDir();
+            if (!Directory.Exists(userDir))
+            {
+                Directory.CreateDirectory(userDir);
+            }
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)

@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TypicalReply.Config;
-
-namespace TypicalReply
+﻿namespace TypicalReply
 {
     internal static class Const
     {
@@ -19,6 +11,7 @@ namespace TypicalReply
         internal static class Config
         {
             internal static readonly string FileName = @"TypicalReplyConfig.json";
+            internal static readonly string DefaultConfigFolderName = @"DefaultConfig";
         }
 
         internal static class Button
