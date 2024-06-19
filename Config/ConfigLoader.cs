@@ -26,7 +26,7 @@ namespace TypicalReply.Config
             {
                 return ConfigSerializer<TypicalReplyConfig>.LoadFromFile(filePath);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Log(ex);
                 return null;
@@ -54,7 +54,7 @@ namespace TypicalReply.Config
                 TypicalReplyConfig conf = ConfigSerializer<TypicalReplyConfig>.Deserialize(configString);
                 return conf;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Log(ex);
                 return null;
@@ -85,7 +85,7 @@ namespace TypicalReply.Config
             }
             else if (right.config == null)
             {
-                return left;   
+                return left;
             }
             else if (left.priority == right.priority)
             {
