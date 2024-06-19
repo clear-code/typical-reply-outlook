@@ -255,6 +255,7 @@
       <DependentUpon>ThisAddIn.Designer.xml</DependentUpon>
     </Compile>
     <AppDesigner Include="Properties\" />
+    <None Include="TypicalReply_1_TemporaryKey.pfx" />
     <None Include="TypicalReply_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -274,11 +275,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
+    <ManifestKeyFile>TypicalReply_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>029BE2539B477CD3711113ADECEE2466AECDD140</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>5EC03379628DDCCE692598588D0045DA1C5BAE84</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestTimestampUrl>http://timestamp.digicert.com</ManifestTimestampUrl>
