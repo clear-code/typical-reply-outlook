@@ -52,12 +52,31 @@ namespace TypicalReply
         {
             try
             {
+                if (ribbonID != "Microsoft.Outlook.Mail.Read" && ribbonID != "Microsoft.Outlook.Explorer")
+                {
+                    return "";
+                }
                 Logger.Log("Start to setup custom UI");
                 string ribbonTemplate = GetResourceText("TypicalReply.Ribbon.xml");
                 var xmlDocument = new XmlDocument();
                 xmlDocument.LoadXml(ribbonTemplate);
                 string namespaceURI = xmlDocument.ChildNodes[1].NamespaceURI;
                 RuntimeParams global = RuntimeParams.GetInstance();
+
+                XmlNode removeTargetNode = null;
+                if (ribbonID == "Microsoft.Outlook.Mail.Read")
+                {
+                    // An error "TabMail does not found" can be raised if TabMail is specified 
+                    // when target ribbon is not "Microsoft.Outlook.Mail.Read"
+                    removeTargetNode = xmlDocument.SelectSingleNode("//*[@idMso='TabMail']");
+                }
+                else if (ribbonID == "Microsoft.Outlook.Explorer")
+                {
+                    // An error "TabReadMessage does not found" can be raised if TabReadMessage is specified
+                    // when target ribbon is not "Microsoft.Outlook.Mail.Read"
+                    removeTargetNode = xmlDocument.SelectSingleNode("//*[@idMso='TabReadMessage']");
+                }
+                removeTargetNode?.ParentNode.RemoveChild(removeTargetNode);
                 XmlNode groupInTabMailElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.TabMailGroupId}']");
                 XmlNode groupInTabReadMessageElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.TabReadMessageGroupId}']");
                 XmlNode contextGalleryElem = xmlDocument.SelectSingleNode($"//*[@id='{Const.Button.ContextMenuGalleryId}']");
@@ -101,6 +120,10 @@ namespace TypicalReply
                     }
                     foreach (var (node, suffix) in targetParams)
                     {
+                        if (node == null)
+                        {
+                            continue;
+                        }
                         XmlElement button = xmlDocument.CreateElement("button", namespaceURI);
                         button.SetAttribute("id", $"{buttonConfig.Id}{suffix}");
                         button.SetAttribute("label", buttonConfig.Label);
