@@ -275,10 +275,11 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>TypicalReply_1_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>5EC03379628DDCCE692598588D0045DA1C5BAE84</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>73E7B9D1F72EDA033E7A9D6B17BC37A96CE8513A</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestTimestampUrl>http://timestamp.digicert.com</ManifestTimestampUrl>
