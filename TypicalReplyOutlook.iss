@@ -33,7 +33,6 @@ Root: HKLM32; Subkey: "Software\Microsoft\Office\Outlook\Addins\TypicalReply"; V
 
 ; Prevent Outlook from disabling .NET addon
 Root: HKCU; Subkey: "Software\Microsoft\Office\16.0\Outlook\Resiliency\DoNotDisableAddinList"; ValueType: dword; ValueName: "TypicalReply"; ValueData: 1
-Root: HKCU; Subkey: "Software\Microsoft\Office\13.0\Outlook\Resiliency\DoNotDisableAddinList"; ValueType: dword; ValueName: "TypicalReply"; ValueData: 1
 
 [Languages]
 Name: en; MessagesFile: "compiler:Default.isl"
