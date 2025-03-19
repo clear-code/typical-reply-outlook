@@ -13,7 +13,7 @@ SolidCompression=yes
 OutputDir=dest
 OutputBaseFilename=TypicalReplySetup-{#SetupSetting("AppVersion")}
 VersionInfoDescription=TypicalReplySetup
-ArchitecturesAllowed=x64
+ArchitecturesAllowed=x86compatible
 ArchitecturesInstallIn64BitMode=x64
 LicenseFile=LICENSE.txt
 
